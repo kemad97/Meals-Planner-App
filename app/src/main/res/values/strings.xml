@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Meal Planner</string>
+    <string name="don_t_have_an_account_sign_up">Don’t have an account? Sign up</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_password2">Enter Password</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">forgot password ?</string>
+    <string name="don_t_have_an_account">don_t_have_an_account</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account2">Don_t_have_an_account ?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="don_t_have_an_account3">Don’t have an account?</string>
+    <string name="hello_nwelcome_back">Hello,\nWelcome Back!</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="aleardy_a_member">Aleardy a member ?</string>
+    <string name="sign_in2">Sign in</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="retype_password">Retype Password</string>
+</resources>
