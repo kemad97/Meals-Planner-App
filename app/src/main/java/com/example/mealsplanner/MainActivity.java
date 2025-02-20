@@ -14,15 +14,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Load HomeFragment
         loadFragment(new HomeFragment());
     }
 
     private void loadFragment(Fragment fragment) {
-        // Create a FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        // Replace the FrameLayout with the new Fragment
+
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit(); // Save the changes
     }

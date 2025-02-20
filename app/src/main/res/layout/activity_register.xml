@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/editName"
+        android:id="@+id/etName"
         android:layout_width="355dp"
         android:layout_height="55dp"
         android:layout_marginStart="30dp"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="55dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/create_an_account"
         android:textSize="25sp"
@@ -41,22 +41,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editEmail"
+        android:id="@+id/etEmail"
         android:layout_width="355dp"
         android:layout_height="55dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="42dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/edit_text_background"
         android:ems="10"
-        android:hint="@string/enter_email"
 
+        android:hint="@string/enter_email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editName" />
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSignin"
+        android:id="@+id/btnSignup"
         android:layout_width="355dp"
         android:layout_height="60dp"
 
@@ -68,7 +70,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editConfirmPswd" />
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPswd" />
 
     <TextView
         android:id="@+id/textView3"
@@ -77,8 +79,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginBottom="2dp"
         android:text="@string/password"
-        app:layout_constraintBottom_toTopOf="@+id/editPswd"
-        app:layout_constraintStart_toStartOf="@+id/editPswd" />
+        app:layout_constraintBottom_toTopOf="@+id/etPswd"
+        app:layout_constraintStart_toStartOf="@+id/etPswd" />
 
     <TextView
         android:id="@+id/textView5"
@@ -91,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgFacebook" />
 
     <TextView
-        android:id="@+id/txtSignup"
+        android:id="@+id/txtSignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -139,37 +141,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignup" />
 
     <EditText
-        android:id="@+id/editPswd"
+        android:id="@+id/etPswd"
         android:layout_width="355dp"
         android:layout_height="55dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="42dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/enter_password2"
         android:inputType="textPassword"
         android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
     <EditText
-        android:id="@+id/editConfirmPswd"
+        android:id="@+id/etConfirmPswd"
         android:layout_width="355dp"
         android:layout_height="55dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="42dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="80dp"
         android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/retype_password"
         android:inputType="textPassword"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSignin"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignup"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPswd" />
+        app:layout_constraintTop_toBottomOf="@+id/etPswd" />
 
     <TextView
         android:id="@+id/textView4"
@@ -178,8 +184,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginBottom="2dp"
         android:text="@string/name"
-        app:layout_constraintBottom_toTopOf="@+id/editName"
-        app:layout_constraintStart_toStartOf="@+id/editName" />
+        app:layout_constraintBottom_toTopOf="@+id/etName"
+        app:layout_constraintStart_toStartOf="@+id/etName" />
 
     <TextView
         android:id="@+id/textView6"
@@ -188,8 +194,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginBottom="2dp"
         android:text="@string/email"
-        app:layout_constraintBottom_toTopOf="@+id/editEmail"
-        app:layout_constraintStart_toStartOf="@+id/editEmail" />
+        app:layout_constraintBottom_toTopOf="@+id/etEmail"
+        app:layout_constraintStart_toStartOf="@+id/etEmail" />
 
     <TextView
         android:id="@+id/textView7"
@@ -198,7 +204,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginBottom="2dp"
         android:text="@string/confirm_password"
-        app:layout_constraintBottom_toTopOf="@+id/editConfirmPswd"
-        app:layout_constraintStart_toStartOf="@+id/editConfirmPswd" />
+        app:layout_constraintBottom_toTopOf="@+id/etConfirmPswd"
+        app:layout_constraintStart_toStartOf="@+id/etConfirmPswd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
