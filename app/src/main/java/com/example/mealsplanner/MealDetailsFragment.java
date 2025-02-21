@@ -1,8 +1,11 @@
 package com.example.mealsplanner;
 
+import android.app.BroadcastOptions;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,10 @@ import com.example.mealsplanner.View.IngredientsAdapter;
 import com.example.mealsplanner.View.MealViewModel;
 import com.example.mealsplanner.model.Meal;
 
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MealDetailsFragment extends Fragment {
 
@@ -32,10 +39,10 @@ public class MealDetailsFragment extends Fragment {
     private Button btnFavorite;
     private Meal currentMeal;
     private MealViewModel mealViewModel;
+    private ApiService apiService;
 
 
     public MealDetailsFragment() {
-        // Required empty public constructor
     }
 
 
@@ -47,11 +54,34 @@ public class MealDetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_meal_details, container, false);
         initViews(view);
+        initApiService();
         loadMealDetails();
 
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void initApiService() {
+        apiService = new Retrofit.Builder()
+                .baseUrl(ApiService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build()
+                .create(ApiService.class);
+
+        ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                if (modelClass.isAssignableFrom(MealViewModel.class)) {
+                    return (T) new MealViewModel(apiService);
+                }
+                throw new IllegalArgumentException("Unknown ViewModel class");
+            }
+        };
+
+        mealViewModel = new ViewModelProvider(this, factory).get(MealViewModel.class);
     }
 
     private void initViews(View view) {

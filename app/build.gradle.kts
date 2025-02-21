@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    id("androidx.navigation.safeargs")
 
 }
 
@@ -65,6 +66,10 @@ dependencies {
     implementation ("androidx.room:room-runtime:2.6.1")
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
 
+    // Add Navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
 
 //    implementation ('com.squareup.retrofit2:retrofit:2.9.0')
 
@@ -77,4 +82,5 @@ dependencies {
 
     // Add RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+
 }

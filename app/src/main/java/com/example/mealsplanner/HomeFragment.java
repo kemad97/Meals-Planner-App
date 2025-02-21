@@ -3,6 +3,8 @@ package com.example.mealsplanner;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
+
 import retrofit2.Retrofit;
 
 public class HomeFragment extends Fragment {
@@ -31,6 +35,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvCountries;
     private ImageView ivMealOfDay;
     private TextView tvMealOfDayName;
+    private Meal mealOfTheDay;
+    private MaterialCardView cardMealOfDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +53,31 @@ public class HomeFragment extends Fragment {
         rvCountries = view.findViewById(R.id.rvCountries);
         ivMealOfDay = view.findViewById(R.id.ivMealOfDay);
         tvMealOfDayName = view.findViewById(R.id.tvMealOfDayName);
+        cardMealOfDay = view.findViewById(R.id.cardMealOfDay);
+
+        ivMealOfDay.setOnClickListener(v->handleMealOfDayClick(view));
+        cardMealOfDay.setOnClickListener(v->handleCardMealOfDayClick(view));
+    }
+
+    private void handleCardMealOfDayClick(View view) {
+        if (mealOfTheDay != null) {
+            NavController navController = Navigation.findNavController(view);
+            HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
+            navController.navigate(action);
+        }
+    }
+
+    private void handleMealOfDayClick(View view) {
+        if(mealOfTheDay!=null)
+        {
+            NavController navController= Navigation.findNavController(view);
+            HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
+            navController.navigate(action);
+
+
+        }
     }
 
     private void setupApiService() {
@@ -65,14 +96,15 @@ public class HomeFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.getMeals() != null && !response.getMeals().isEmpty()) {
-                        Meal meal = response.getMeals().get(0);
-                        tvMealOfDayName.setText(meal.getName());
+                        mealOfTheDay = response.getMeals().get(0);
+                        tvMealOfDayName.setText(mealOfTheDay.getName());
 
                         Glide.with(this)
-                                .load(meal.getImageUrl())
+                                .load(mealOfTheDay.getImageUrl())
                                 .into(ivMealOfDay);
                     }
                 }, throwable -> {
+                    // Handle error
                 });
 
         // Load categories

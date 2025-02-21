@@ -18,7 +18,7 @@
         android:id="@+id/mealDetailsFragment"
         android:name="com.example.mealsplanner.MealDetailsFragment"
         android:label="fragment_meal_details"
-        tools:layout="@layout/fragment_meal_details" >
+        tools:layout="@layout/fragment_meal_details">
         <action
             android:id="@+id/action_mealDetailsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

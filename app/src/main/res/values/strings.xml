@@ -24,4 +24,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
+    <string name="what_are_you_cooking_today">What are you cooking today?</string>
+    <string name="hello_jega">Hello Jega</string>
+    <string name="meal_of_the_day">Meal of the Day</string>
+    <string name="categories">Categories</string>
+    <string name="popular_cuisines">Popular Cuisines</string>
+    <string name="this_week_s_plan">This Week\'s Plan</string>
+    <string name="search_recipe">Search recipe</string>
 </resources>
