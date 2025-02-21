@@ -1,6 +1,5 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.MealDetails.View;
 
-import android.app.BroadcastOptions;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.mealsplanner.View.IngredientsAdapter;
-import com.example.mealsplanner.View.MealViewModel;
+import com.example.mealsplanner.Data.remote.ApiService;
+import com.example.mealsplanner.MealDetails.View.MealDetailsFragment;
+import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Meal;
 
 import retrofit2.Retrofit;

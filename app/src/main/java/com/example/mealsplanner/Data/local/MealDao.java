@@ -1,4 +1,4 @@
-package com.example.mealsplanner.Database;
+package com.example.mealsplanner.Data.local;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

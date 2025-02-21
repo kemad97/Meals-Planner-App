@@ -1,5 +1,6 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.model.response;
 
+import com.example.mealsplanner.model.CategoriesItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

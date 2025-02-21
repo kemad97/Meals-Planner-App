@@ -1,4 +1,4 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.HomeScreen.View;
 
 import android.os.Bundle;
 
@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mealsplanner.Data.remote.ApiService;
+import com.example.mealsplanner.HomeScreen.View.HomeFragmentDirections;
+import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Meal;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -21,13 +24,9 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import android.widget.ImageView;
-import android.widget.TextView;
-import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
-
-import retrofit2.Retrofit;
 
 public class HomeFragment extends Fragment {
     private ApiService apiService;

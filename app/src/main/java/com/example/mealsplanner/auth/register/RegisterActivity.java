@@ -1,4 +1,4 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.auth.register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,10 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.mealsplanner.MainActivity;
+import com.example.mealsplanner.R;
+import com.example.mealsplanner.auth.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 

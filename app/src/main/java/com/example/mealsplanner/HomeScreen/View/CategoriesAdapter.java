@@ -1,4 +1,4 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.HomeScreen.View;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.mealsplanner.model.CategoriesItem;
+import com.example.mealsplanner.R;
 
 import java.util.List;
 

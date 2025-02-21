@@ -30,7 +30,7 @@ public class Meal {
 	@SerializedName("strTags")
 	private String tags;
 
-	// For Room Database
+	// For Room Data
 	private boolean isFavorite;
 
 	// Ingredients
@@ -106,7 +106,7 @@ public class Meal {
 	public String getInstructions() { return instructions; }
 	public String getTags() { return tags; }
 
-	//Room Database
+	//Room Data
 	public boolean isFavorite() { return isFavorite; }
 	public void setFavorite(boolean favorite) { isFavorite = favorite; }
 }

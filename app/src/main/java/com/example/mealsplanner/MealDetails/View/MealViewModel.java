@@ -1,10 +1,10 @@
-package com.example.mealsplanner.View;
+package com.example.mealsplanner.MealDetails.View;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.mealsplanner.ApiService;
+import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.model.Meal;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -33,7 +33,7 @@ public class MealViewModel extends ViewModel {
                                     }
                                 },
                                 throwable -> {
-                                    // Handle error
+
                                 }
                         )
         );

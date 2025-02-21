@@ -1,4 +1,4 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.auth.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mealsplanner.MainActivity;
+import com.example.mealsplanner.R;
+import com.example.mealsplanner.auth.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
