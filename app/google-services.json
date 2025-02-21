@@ -12,7 +12,12 @@
           "package_name": "com.example.mealsplanner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1071438711626-kana2f1s5mt132kr4mt66t1thrjoh4f0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCl7PTLsStcTmighhe1z8QDd3iOKF_dCT0"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071438711626-kana2f1s5mt132kr4mt66t1thrjoh4f0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
