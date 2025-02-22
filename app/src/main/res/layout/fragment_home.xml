@@ -88,7 +88,9 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:padding="6dp"
-                    android:src="@drawable/filter" />
+                    android:src="@drawable/filter"
+
+                    />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -108,9 +110,9 @@
             android:id="@+id/cardMealOfDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="14dp"
             app:cardCornerRadius="12dp"
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +127,7 @@
                     android:id="@+id/ivMealOfDay"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -134,21 +136,14 @@
                     android:id="@+id/tvMealOfDayName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:textSize="16sp"
+                    android:layout_margin="18dp"
+                    android:padding="2dp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivMealOfDay" />
 
-                <ImageButton
-                    android:id="@+id/btnFavorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/baseline_favorite_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivMealOfDay" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -194,25 +189,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/tvCountriesTitle" />
 
-        <!-- Weekly Plan Preview -->
-        <TextView
-            android:id="@+id/tvWeeklyPlanTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/this_week_s_plan"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvCountries" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvWeeklyPlan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/tvWeeklyPlanTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
