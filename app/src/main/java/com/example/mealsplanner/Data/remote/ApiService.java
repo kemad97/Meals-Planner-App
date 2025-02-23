@@ -4,6 +4,7 @@ import com.example.mealsplanner.model.response.AreaResponse;
 import com.example.mealsplanner.model.response.CategoryResponse;
 import com.example.mealsplanner.model.response.MealResponse;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -31,4 +32,5 @@ public interface ApiService {
 
     @GET("list.php")
     Single<AreaResponse> getAreas(@Query("a") String list);
+
 }

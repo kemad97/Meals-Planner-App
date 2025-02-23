@@ -11,7 +11,7 @@
                     android:id="@+id/tv_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="26dp"
+                    android:layout_marginTop="24dp"
                     android:padding="12dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"/>

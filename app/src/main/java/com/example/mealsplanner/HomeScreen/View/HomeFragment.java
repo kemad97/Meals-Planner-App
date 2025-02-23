@@ -107,44 +107,6 @@ public class HomeFragment extends Fragment implements HomeView {
         presenter.attachView(this);
     }
 
-//    private void loadData() {
-//        // Load random meal
-//        apiService.getRandomMeal()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(response -> {
-//                    if (response.getMeals() != null && !response.getMeals().isEmpty()) {
-//                        mealOfTheDay = response.getMeals().get(0);
-//                        tvMealOfDayName.setText(mealOfTheDay.getName());
-//
-//                        Glide.with(this)
-//                                .load(mealOfTheDay.getImageUrl())
-//                                .into(ivMealOfDay);
-//                    }
-//                }, throwable -> {
-//                    // Handle error
-//                });
-//
-//        // Load categories
-//        apiService.getCategories()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(response -> {
-//                    CategoriesAdapter categoriesAdapter = new CategoriesAdapter(response.getCategories());
-//                    rvCategories.setAdapter(categoriesAdapter);
-//                }, throwable -> {
-//                    // Handle error
-//                });
-//        // Load areas
-//        apiService.getAreas("list")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(response -> {
-//                    // Set up countries adapter
-//                }, throwable -> {
-//                    // Handle error
-//                });
-//    }
 
     @Override
     public void showError(String message) {
