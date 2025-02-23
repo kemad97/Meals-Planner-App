@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private static final int RC_SIGN_IN = 9001;
 
 
 
@@ -158,7 +157,6 @@ public class LoginActivity extends AppCompatActivity {
         etPswd = findViewById(R.id.etPswd);
         btnSignin = findViewById(R.id.btnSignup);
         imgGoogle = findViewById(R.id.imgGoogle);
-        imgFacebook = findViewById(R.id.imgFacebook);
         txtSignup = findViewById(R.id.txtSignin);
 
 
