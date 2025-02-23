@@ -22,6 +22,7 @@ credentials = "1.3.0"
 credentialsPlayServicesAuth = "1.3.0"
 googleid = "1.1.1"
 googlePlayServicesAuth = "20.7.0"
+youtubeAndroidPlayerApi = "1.2.2"
 
 [libraries]
 adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "adapterRxjava3" }
@@ -46,6 +47,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+youtube-android-player-api = { module = "com.google.android.youtube:youtube-android-player-api", version.ref = "youtubeAndroidPlayerApi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
