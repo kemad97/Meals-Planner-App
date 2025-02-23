@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private ImageView ivSignout;
     private FirebaseAuth auth;
     private GoogleSignInClient googleSignInClient;
+    private Button btnSignout;
 
 
     @Override
@@ -108,6 +110,7 @@ public class HomeFragment extends Fragment implements HomeView {
         ivMealOfDay = view.findViewById(R.id.ivMealOfDay);
         tvMealOfDayName = view.findViewById(R.id.tvMealOfDayName);
         cardMealOfDay = view.findViewById(R.id.cardMealOfDay);
+        ivSignout = view.findViewById(R.id.ivSignout);
 
         ivMealOfDay.setOnClickListener(v->handleMealOfDayClick(view));
         cardMealOfDay.setOnClickListener(v->handleCardMealOfDayClick(view));

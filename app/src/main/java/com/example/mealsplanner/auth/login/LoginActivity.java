@@ -44,14 +44,22 @@ public class LoginActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                    handleGoogleSignInResult(task);
-                }
-            }
-    );
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                            handleGoogleSignInResult(task);
+                            Toast.makeText(this, "Google sign in successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int resultCode = result.getResultCode();
+                            String errorMessage = "Google sign in failed with result code: " + resultCode;
+                            if (result.getData() == null) {
+                                errorMessage += " and data is null";
+                            }
+                            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +81,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        try {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        } catch (Exception e) {
+            Toast.makeText(this, "Google Sign-In initialization failed: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void configureFacebookSignIn() {
@@ -103,31 +115,18 @@ public class LoginActivity extends AppCompatActivity {
     private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            if (account != null)
-            {
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                mAuth.signInWithCredential(credential)
-                        .addOnCompleteListener(this, task -> {
-
-
-                            if (task.isSuccessful()) {
-                                // Sign in success
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                if (user != null) {
-                                    // Navigate to MainActivity
-                                    navigateToMain();
-                                }
-                            } else {
-                                // Sign in failed
-                                Toast.makeText(this, "Authentication failed: " + task.getException().getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            if (account != null) {
+                String idToken = account.getIdToken();
+                if (idToken != null) {
+                    AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+                    firebaseAuthWithCredential(credential);
+                } else {
+                    Toast.makeText(this, "ID Token is null", Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (ApiException e) {
-
-            Toast.makeText(this, "Google sign in failed: " + e.getStatusCode(),
-                    Toast.LENGTH_SHORT).show();
+            String errorMessage = "Google sign in failed: " + e.getStatusCode() ;
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }
     private void firebaseAuthWithCredential(AuthCredential credential) {
