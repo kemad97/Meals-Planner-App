@@ -32,7 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -44,17 +50,56 @@ public class HomeFragment extends Fragment implements HomeView {
     private TextView tvMealOfDayName;
     private MaterialCardView cardMealOfDay;
     private Meal mealOfTheDay;
+    private ImageView ivSignout;
+    private FirebaseAuth auth;
+    private GoogleSignInClient googleSignInClient;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
+        setupFirebase();
         setupPresenter();
         loadData();
         return view;
     }
 
+    private void setupFirebase() {
+        auth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+
+        checkIfUserSigned();
+    }
+
+    private void checkIfUserSigned() {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            ivSignout.setVisibility(View.VISIBLE);
+            ivSignout.setOnClickListener(v -> signOut());
+        }
+        else
+        {
+            ivSignout.setVisibility(View.GONE);
+        }
+    }
+
+    private void signOut() {
+        auth.signOut();
+        googleSignInClient.signOut()
+                .addOnCompleteListener(requireActivity(), task -> {
+
+                    // Nav to login screen
+                    NavController navController = Navigation.findNavController(requireView());
+                    navController.navigate(R.id.action_homeFragment_to_guestFragment);
+                });
+    }
 
 
     private void initViews(View view) {
