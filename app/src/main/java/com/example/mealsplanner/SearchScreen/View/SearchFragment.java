@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +20,20 @@ import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.internal.TextWatcherAdapter;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 
 public class SearchFragment extends Fragment implements SearchView {
@@ -35,6 +45,9 @@ public class SearchFragment extends Fragment implements SearchView {
     private Chip chipCategory;
     private Chip chipArea;
     private Chip chipIngredient;
+    private TextInputEditText etSearch;
+    private CompositeDisposable compositeDisposable=new CompositeDisposable();
+    private static  final  long DEBOUNCE_TIMEOUT=300;
 
 
 
@@ -49,9 +62,11 @@ public class SearchFragment extends Fragment implements SearchView {
         View view= inflater.inflate(R.layout.fragment_search, container, false);
         initViews(view);
         setupPresenter();
+        initTextWatcher();
         handleChipListeners();
         return view;
     }
+
 
     private void initViews(View view) {
         rvAreas = view.findViewById(R.id.rvAreas);
@@ -60,7 +75,44 @@ public class SearchFragment extends Fragment implements SearchView {
         chipCategory = view.findViewById(R.id.chipCategory);
         chipArea = view.findViewById(R.id.chipCountry);
         chipIngredient = view.findViewById(R.id.chipIngredient);
+        etSearch = view.findViewById(R.id.etSearch);
     }
+
+    private void initTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                compositeDisposable.add(Observable.just(s.toString())
+                        .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(s1 -> {
+                            if (rvCategories.getVisibility() == View.VISIBLE) {
+                                presenter.searchCategories(s1);
+                            } else if (rvAreas.getVisibility() == View.VISIBLE) {
+                                presenter.searchAreas(s1);
+                            } else if (rvIngredients.getVisibility() == View.VISIBLE) {
+                                presenter.searchIngredients(s1);
+                            }
+                        }) );
+            }
+
+        });
+        
+    }
+
+
+
 
     private void setupPresenter()
     {
@@ -123,6 +175,11 @@ public class SearchFragment extends Fragment implements SearchView {
     public void displayIngredients(List<Meal.Ingredient> ingredients) {
         IngredientsAdapter adapter=new IngredientsAdapter(ingredients);
         rvIngredients.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void displaySearchResults(List<Meal> meals) {
 
     }
 }

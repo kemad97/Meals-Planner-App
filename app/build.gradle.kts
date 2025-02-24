@@ -99,5 +99,7 @@ dependencies {
     // Add RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
+    // RxBinding
+    implementation("com.jakewharton.rxbinding4:rxbinding:4.0.0")
 
 }

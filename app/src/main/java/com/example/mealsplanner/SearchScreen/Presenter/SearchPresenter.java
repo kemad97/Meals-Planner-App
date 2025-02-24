@@ -14,4 +14,7 @@ public interface SearchPresenter {
     void onAreaSelected(String area);
 
     void loadIngredients();
+    void searchCategories(String query);
+    void searchAreas(String query);
+    void searchIngredients(String query);
 }

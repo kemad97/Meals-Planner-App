@@ -3,15 +3,17 @@ package com.example.mealsplanner.SearchScreen.Presenter;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.Data.remote.NetworkCallback;
 import com.example.mealsplanner.SearchScreen.View.SearchView;
+import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchPresenterImpl implements SearchPresenter, NetworkCallback {
+public class SearchPresenterImpl implements SearchPresenter {
 
     private final ApiService apiService;
     private final CompositeDisposable compositeDisposable =new CompositeDisposable();
@@ -44,13 +46,11 @@ public class SearchPresenterImpl implements SearchPresenter, NetworkCallback {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
                                     if (response.getCategories() != null) {
                                         view.displayCategories(response.getCategories());
                                     }
                                 },
                                 error -> {
-                                  
                                     view.showError(error.getMessage());
                                 }
                         )
@@ -97,6 +97,40 @@ public class SearchPresenterImpl implements SearchPresenter, NetworkCallback {
 //        );
     }
 
+    @Override
+    public void searchCategories(String query) {
+        if (view == null) return;
+        compositeDisposable.add(
+                apiService.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getCategories() != null) {
+                                        List<CategoriesItem> filteredCategories = response.getCategories()
+                                                .stream()
+                                                .filter(category ->
+                                                        category.getStrCategory().toLowerCase()
+                                                                .contains(query.toLowerCase()))
+                                                .collect(Collectors.toList());
+                                        view.displayCategories(filteredCategories);
+                                    }
+                                },
+                                error -> view.showError(error.getMessage())
+                        )
+        );
+    }
+
+    @Override
+    public void searchAreas(String query) {
+
+    }
+
+    @Override
+    public void searchIngredients(String query) {
+
+    }
+
 
     @Override
     public void onCategorySelected(String category) {
@@ -139,13 +173,5 @@ public class SearchPresenterImpl implements SearchPresenter, NetworkCallback {
 
 
 
-    @Override
-    public <T> void onSuccessResult(List<T> result) {
 
-    }
-
-    @Override
-    public void onFailureResult(String errMsg) {
-
-    }
 }

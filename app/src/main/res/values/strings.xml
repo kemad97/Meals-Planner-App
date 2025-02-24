@@ -38,4 +38,5 @@
     <string name="country">Country</string>
     <string name="hello">Hello</string>
     <string name="add_to_favorites">Add to Favorites</string>
+    <string name="search2">Search</string>
 </resources>
