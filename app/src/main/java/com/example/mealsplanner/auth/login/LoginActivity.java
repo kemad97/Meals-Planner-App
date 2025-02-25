@@ -1,7 +1,9 @@
 package com.example.mealsplanner.auth.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,17 +30,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private static final String PREF_NAME = "LoginPrefs";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
     EditText etEmail;
     EditText etPswd;
     Button btnSignin;
     ImageView imgGoogle;
     ImageView imgFacebook;
-    TextView txtSignup;
+    TextView tvSignup;
+    TextView tvSkip;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-
+    private SharedPreferences sharedPreferences;
 
 
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
@@ -52,9 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             int resultCode = result.getResultCode();
                             String errorMessage = "Google sign in failed with result code: " + resultCode;
-                            if (result.getData() == null) {
-                                errorMessage += " and data is null";
-                            }
                             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }
@@ -66,17 +69,35 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             navigateToMain();
         }
-        initGoogleSignIn();
         initUI();
+        initGoogleSignIn();
         configureSignInButton();
         configureGoogleSignIn();
-        configureFacebookSignIn();
         configureSignUpText();
+        configureSkipText();
+    }
 
+    private boolean isLoggedIn() {
+        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
+    }
+
+    private void saveLoginState(String email, String password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PASSWORD, password);
+        editor.apply();
+
+    }
+
+    private void configureSkipText() {
+        tvSkip.setOnClickListener(v -> navigateToGuestFragment());
     }
 
     private void initGoogleSignIn() {
@@ -92,11 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void configureFacebookSignIn() {
-    }
 
     private void configureSignUpText() {
-        txtSignup.setOnClickListener(v -> {
+        tvSignup.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
             finish();
         });
@@ -124,10 +143,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         } catch (ApiException e) {
-            String errorMessage = "Google sign in failed: " + e.getStatusCode() ;
+            String errorMessage = "Google sign in failed: " + e.getStatusCode();
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }
+
     private void firebaseAuthWithCredential(AuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
@@ -147,19 +167,52 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    private void navigateToGuestFragment() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_IS_GUEST, true);
+        startActivity(intent);
+        finish();
+    }
+
     private void configureSignInButton() {
-        btnSignin.setOnClickListener(v ->navigateToMain() );
+        btnSignin.setOnClickListener(v -> attemptLogin());
 
     }
+
+    private void attemptLogin() {
+        String email = etEmail.getText().toString().trim();
+        String password = etPswd.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Email is required");
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            etPswd.setError("Password is required");
+            return;
+        }
+
+        String savedEmail = sharedPreferences.getString(KEY_EMAIL, "");
+        String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
+        if (!TextUtils.isEmpty(savedEmail) && !TextUtils.isEmpty(savedPassword) &&
+                email.equals(savedEmail) && password.equals(savedPassword)) {
+            saveLoginState(email, password);
+            navigateToMain();
+        } else {
+            Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
     private void initUI() {
         etEmail = findViewById(R.id.etEmail);
         etPswd = findViewById(R.id.etPswd);
         btnSignin = findViewById(R.id.btnSignup);
         imgGoogle = findViewById(R.id.imgGoogle);
-        txtSignup = findViewById(R.id.txtSignin);
-
-
+        tvSignup = findViewById(R.id.txtSignin);
+        tvSkip = findViewById(R.id.tvSkip);
     }
 
 

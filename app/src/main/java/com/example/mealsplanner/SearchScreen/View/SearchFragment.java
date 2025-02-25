@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.MealDetails.View.IngredientsAdapter;
@@ -46,7 +47,7 @@ public class SearchFragment extends Fragment implements SearchView {
     private Chip chipCategory;
     private Chip chipArea;
     private Chip chipIngredient;
-    private TextInputEditText etSearch;
+    private EditText etSearch;
     private CompositeDisposable compositeDisposable=new CompositeDisposable();
     private static  final  long DEBOUNCE_TIMEOUT=300;
 
