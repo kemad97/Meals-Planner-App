@@ -4,4 +4,25 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="RoundedImageView">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="MaterialCardView">
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="android:backgroundTint">#EBFFFFFF</item>
+    </style>
+
+    <style name="TextAppearance.App.Regular" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_black</item>
+    </style>
+
+    <style name="TextAppearance.App.Bold" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    
 </resources>

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1071438711626-6dbiad0ugnn14u0b2scoieq2hqc2d11q.apps.googleusercontent.com",
+          "client_id": "1071438711626-laftks34qmd3bmqlrircjonm8jkbikrb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.mealsplanner",
-            "certificate_hash": "1ea81186a245ef262fe54f38f26662bb0821c053"
+            "certificate_hash": "7641b6bc087270244c20a9d67d97fee9ec92de9f"
           }
         },
         {
