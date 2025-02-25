@@ -42,4 +42,5 @@
     <string name="guest_mode">Guest Mode</string>
     <string name="skip_for_now">Skip for now</string>
     <string name="skip">Skip</string>
+    <string name="remove_from_favourite">Remove From Favourite</string>
 </resources>

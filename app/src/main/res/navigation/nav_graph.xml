@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.mealsplanner.FavoritesFragment"
+        android:name="com.example.mealsplanner.FavoriteScreen.View.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action

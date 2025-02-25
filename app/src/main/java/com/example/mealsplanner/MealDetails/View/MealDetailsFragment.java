@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.mealsplanner.Data.local.AppDatabase;
+import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.MealDetails.Presenter.MealDetailsPresenter;
 import com.example.mealsplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
@@ -96,7 +98,9 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
                 .build()
                 .create(ApiService.class);
 
-        presenter = new MealDetailsPresenterImpl(apiService);
+        MealDao mealDao = AppDatabase.getInstance(requireContext()).mealDao();
+
+        presenter = new MealDetailsPresenterImpl(apiService,mealDao);
         presenter.attachView(this);
     }
 
