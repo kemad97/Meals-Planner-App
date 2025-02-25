@@ -3,6 +3,7 @@ package com.example.mealsplanner.SearchScreen.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
@@ -76,6 +77,7 @@ public class SearchFragment extends Fragment implements SearchView {
         chipArea = view.findViewById(R.id.chipCountry);
         chipIngredient = view.findViewById(R.id.chipIngredient);
         etSearch = view.findViewById(R.id.etSearch);
+
     }
 
     private void initTextWatcher() {
@@ -95,6 +97,7 @@ public class SearchFragment extends Fragment implements SearchView {
             public void afterTextChanged(Editable s) {
                 compositeDisposable.add(Observable.just(s.toString())
                         .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(s1 -> {
                             if (rvCategories.getVisibility() == View.VISIBLE) {

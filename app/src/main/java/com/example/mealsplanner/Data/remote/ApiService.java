@@ -2,6 +2,7 @@ package com.example.mealsplanner.Data.remote;
 
 import com.example.mealsplanner.model.response.AreaResponse;
 import com.example.mealsplanner.model.response.CategoryResponse;
+import com.example.mealsplanner.model.response.IngredientResponse;
 import com.example.mealsplanner.model.response.MealResponse;
 
 import io.reactivex.rxjava3.core.Completable;
@@ -33,4 +34,7 @@ public interface ApiService {
     @GET("list.php")
     Single<AreaResponse> getAreas(@Query("a") String list);
 
+
+    @GET("list.php?i=list")
+    Single<IngredientResponse> getIngredients();
 }

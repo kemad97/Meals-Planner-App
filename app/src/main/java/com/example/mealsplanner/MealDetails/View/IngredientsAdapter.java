@@ -35,6 +35,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     public void onBindViewHolder(@NonNull IngredientsAdapter.IngredientViewHolder holder, int position) {
         Meal.Ingredient ingredient=ingredientList.get(position);
         holder.tvIngredientName.setText(ingredient.getName());
+        holder.tvIngredientMeasure.setText(ingredient.getMeasure());
 
         Glide.with(holder.itemView.getContext())
                 .load(ingredient.getImageUrl())

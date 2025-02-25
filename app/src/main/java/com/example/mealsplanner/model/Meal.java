@@ -80,15 +80,28 @@ public class Meal {
 	}
 
 	public static class Ingredient {
+		@SerializedName("idIngredient")
+		private String id;
+		@SerializedName("strIngredient")
 		private final String name;
+		@SerializedName("strmeasure")
 		private final String measure;
+
+		@SerializedName("strDescription")
+		private String description;
+
+		@SerializedName("strType")
+		private String type;
 
 		public Ingredient(String name, String measure) {
 			this.name = name;
 			this.measure = measure;
 		}
 
+		public String getId() { return id; }
 		public String getName() { return name; }
+		public String getDescription() { return description; }
+		public String getType() { return type; }
 		public String getMeasure() { return measure; }
 
 		public String getImageUrl()

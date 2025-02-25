@@ -9,12 +9,9 @@ public class AreaResponse {
     @SerializedName("meals")
     private List<Area> areas;
 
-    public List<Area> getAreas() {
+    public List<Area> getAreasResponse() {
         return areas;
     }
 
-    public void setAreas(List<Area> areas) {
-        this.areas = areas;
-    }
 
 }

@@ -14,8 +14,15 @@
         <item name="cardElevation">4dp</item>
         <item name="android:backgroundTint">#EBFFFFFF</item>
     </style>
-    
 
+    <style name="TextAppearance.App.Regular" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/your_regular_font</item>
+    </style>
+
+    <style name="TextAppearance.App.Bold" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/your_bold_font</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
 

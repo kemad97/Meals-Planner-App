@@ -9,7 +9,7 @@ public class CategoryResponse {
     @SerializedName("categories")
     private List<CategoriesItem> categories;
 
-    public List<CategoriesItem> getCategories() {
+    public List<CategoriesItem> getCategoriesResponse() {
         return categories;
     }
 }

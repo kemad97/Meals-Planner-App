@@ -1,9 +1,6 @@
 package com.example.mealsplanner.HomeScreen.Presenter;
 
-import com.bumptech.glide.Glide;
 import com.example.mealsplanner.Data.remote.ApiService;
-import com.example.mealsplanner.Data.remote.NetworkCallback;
-import com.example.mealsplanner.HomeScreen.View.CategoriesAdapter;
 import com.example.mealsplanner.HomeScreen.View.HomeView;
 
 
@@ -13,7 +10,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class HomePresenterImpl implements HomePresenter, NetworkCallback {
+public class HomePresenterImpl implements HomePresenter {
 
     private final ApiService apiService;
     private final CompositeDisposable compositeDisposable =new CompositeDisposable();
@@ -70,8 +67,8 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
                         .subscribe(
                                 response -> {
                                   
-                                    if (response.getCategories() != null) {
-                                        view.displayCategories(response.getCategories());
+                                    if (response.getCategoriesResponse() != null) {
+                                        view.displayCategories(response.getCategoriesResponse());
                                     }
                                 },
                                 error -> {
@@ -94,8 +91,8 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
                         .subscribe(
                                 response -> {
                                   
-                                    if (response.getAreas() != null) {
-                                        view.displayAreas(response.getAreas());
+                                    if (response.getAreasResponse() != null) {
+                                        view.displayAreas(response.getAreasResponse());
                                     }
                                 },
                                 error -> {
@@ -149,13 +146,5 @@ public class HomePresenterImpl implements HomePresenter, NetworkCallback {
     }
 
 
-    @Override
-    public <T> void onSuccessResult(List<T> result) {
 
-    }
-
-    @Override
-    public void onFailureResult(String errMsg) {
-
-    }
 }

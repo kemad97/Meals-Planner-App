@@ -1,8 +1,8 @@
 package com.example.mealsplanner.SearchScreen.Presenter;
 
 import com.example.mealsplanner.Data.remote.ApiService;
-import com.example.mealsplanner.Data.remote.NetworkCallback;
 import com.example.mealsplanner.SearchScreen.View.SearchView;
+import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
 
@@ -46,8 +46,8 @@ public class SearchPresenterImpl implements SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                    if (response.getCategories() != null) {
-                                        view.displayCategories(response.getCategories());
+                                    if (response.getCategoriesResponse() != null) {
+                                        view.displayCategories(response.getCategoriesResponse());
                                     }
                                 },
                                 error -> {
@@ -66,8 +66,8 @@ public class SearchPresenterImpl implements SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                    if (response.getAreas() != null) {
-                                        view.displayAreas(response.getAreas());
+                                    if (response.getAreasResponse() != null) {
+                                        view.displayAreas(response.getAreasResponse());
                                     }
                                 },
                                 error -> {
@@ -80,21 +80,25 @@ public class SearchPresenterImpl implements SearchPresenter {
     @Override
     public void loadIngredients() {
         if (view == null) return;
-//        compositeDisposable.add(
-//                apiService.getIngredients()
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(
-//                                response -> {
-//                                    if (response.getMeals() != null) {
-//                                        view.displayIngredients(response.getMeals());
-//                                    }
-//                                },
-//                                error -> {
-//                                    view.showError(error.getMessage());
-//                                }
-//                        )
-//        );
+        compositeDisposable.add(
+                apiService.getIngredients()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getIngredients() != null) {
+                                        List<Meal.Ingredient> ingredients = response.getIngredients().stream()
+                                                .map(meal -> new Meal.Ingredient(
+                                                        meal.getName(),
+                                                        meal.getMeasure()
+                                                ))
+                                                .collect(Collectors.toList());
+                                        view.displayIngredients(ingredients);
+                                    }
+                                },
+                                error -> view.showError(error.getMessage())
+                        )
+        );
     }
 
     @Override
@@ -106,8 +110,8 @@ public class SearchPresenterImpl implements SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                    if (response.getCategories() != null) {
-                                        List<CategoriesItem> filteredCategories = response.getCategories()
+                                    if (response.getCategoriesResponse() != null) {
+                                        List<CategoriesItem> filteredCategories = response.getCategoriesResponse()
                                                 .stream()
                                                 .filter(category ->
                                                         category.getStrCategory().toLowerCase()
@@ -123,11 +127,34 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void searchAreas(String query) {
+        if (view == null) return;
+        compositeDisposable.add(
+                apiService.getAreas("list")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getAreasResponse() != null) {
+                                        List<Area> filteredAreas = response.getAreasResponse()
+                                                .stream()
+                                                .filter(area ->
+                                                        area.getName().toLowerCase()
+                                                                .contains(query.toLowerCase()))
+                                                .collect(Collectors.toList());
+                                        view.displayAreas(filteredAreas);
+                                    }
+                                },
+                                error -> view.showError(error.getMessage())
+                        )
+        );
 
     }
 
     @Override
     public void searchIngredients(String query) {
+        if (view == null) return;
+
+
 
     }
 
