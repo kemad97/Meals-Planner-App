@@ -16,14 +16,13 @@
     </style>
 
     <style name="TextAppearance.App.Regular" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/your_regular_font</item>
+        <item name="fontFamily">@font/poppins_black</item>
     </style>
 
     <style name="TextAppearance.App.Bold" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/your_bold_font</item>
+        <item name="fontFamily">@font/poppins_bold</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-
-
+    
 </resources>

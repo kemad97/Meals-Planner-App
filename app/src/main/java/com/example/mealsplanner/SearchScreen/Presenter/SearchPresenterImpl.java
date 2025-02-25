@@ -16,7 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class SearchPresenterImpl implements SearchPresenter {
 
     private final ApiService apiService;
-    private final CompositeDisposable compositeDisposable =new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private SearchView view;
 
     public SearchPresenterImpl(ApiService apiService) {
@@ -33,7 +33,6 @@ public class SearchPresenterImpl implements SearchPresenter {
         compositeDisposable.clear();
         this.view = null;
     }
-
 
 
     @Override
@@ -153,7 +152,29 @@ public class SearchPresenterImpl implements SearchPresenter {
     @Override
     public void searchIngredients(String query) {
         if (view == null) return;
-
+        compositeDisposable.add(
+                apiService.getIngredients()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getIngredients() != null) {
+                                        List<Meal.Ingredient> filteredIngredients = response.getIngredients()
+                                                .stream()
+                                                .filter(meal ->
+                                                        meal.getName().toLowerCase()
+                                                                .contains(query.toLowerCase()))
+                                                .map(meal -> new Meal.Ingredient(
+                                                        meal.getName(),
+                                                        meal.getMeasure()
+                                                ))
+                                                .collect(Collectors.toList());
+                                        view.displayIngredients(filteredIngredients);
+                                    }
+                                },
+                                error -> view.showError(error.getMessage())
+                        )
+        );
 
 
     }
@@ -169,10 +190,10 @@ public class SearchPresenterImpl implements SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+
                                 },
                                 error -> {
-                                  
+
                                     view.showError(error.getMessage());
                                 }
                         )
@@ -188,17 +209,15 @@ public class SearchPresenterImpl implements SearchPresenter {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+
                                 },
                                 error -> {
-                                  
+
                                     view.showError(error.getMessage());
                                 }
                         )
         );
     }
-
-
 
 
 }
