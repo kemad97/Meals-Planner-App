@@ -8,11 +8,13 @@ import com.example.mealsplanner.ShowMeals.View.ShowMealsView;
 import com.example.mealsplanner.model.FavoriteMeal;
 import com.example.mealsplanner.model.Meal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -38,49 +40,39 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
         disposables.clear();
         this.view = null;
     }
-
-    @SuppressLint("CheckResult")
     @Override
     public void loadMealsByCategory(String category) {
-        apiService.filterByCategory(category)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        response -> {
-                            if (view != null) {
-                                view.hideLoading();
-                                if (response.getMeals() != null) {
-                                    view.showMeals(response.getMeals());
-                                }
-
-                            }
-                        },
-                        throwable -> {
-                            if (view != null) {
-                                view.hideLoading();
-                                view.showError("Failed to load meals: " + throwable.getMessage());
-                            }
-                        }
-                );
-    }
-
-    @Override
-    public void loadMealsByArea(String area) {
         if (view != null) {
             view.showLoading();
         }
 
         disposables.add(
-                apiService.filterByArea(area)
+                apiService.filterByCategory(category)
+                        .flatMap(response -> {
+                            if (response.getMeals() != null) {
+                                return mealDao.getFavorites()
+                                        .map(favorites -> {
+                                            Set<String> favoriteIds = favorites.stream()
+                                                    .map(FavoriteMeal::getId)
+                                                    .collect(Collectors.toSet());
+
+                                            List<Meal> meals = response.getMeals();
+
+                                            for (Meal meal : response.getMeals()) {
+                                                meal.setFavorite(favoriteIds.contains(meal.getId()));
+                                            }
+                                            return response.getMeals();
+                                        });
+                            }
+                            return Single.just(new ArrayList<Meal>());
+                        })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                response -> {
+                                meals -> {
                                     if (view != null) {
                                         view.hideLoading();
-                                        if (response.getMeals() != null) {
-                                            view.showMeals(response.getMeals());
-                                        }
+                                        view.showMeals(meals);
                                     }
                                 },
                                 throwable -> {
@@ -92,6 +84,107 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
                         )
         );
     }
+
+ @Override
+ public void loadMealsByArea(String area) {
+     if (view != null) {
+         view.showLoading();
+     }
+
+     disposables.add(
+         apiService.filterByArea(area)
+             .flatMap(response -> {
+                 if (response.getMeals() != null) {
+                     return mealDao.getFavorites()
+                         .map(favorites -> {
+                             Set<String> favoriteIds = favorites.stream()
+                                 .map(FavoriteMeal::getId)
+                                 .collect(Collectors.toSet());
+
+                             List<Meal> meals = response.getMeals();
+                             for (Meal meal : meals) {
+                                 meal.setFavorite(favoriteIds.contains(meal.getId()));
+                             }
+                             return meals;
+                         });
+                 }
+                 return Single.just(new ArrayList<Meal>());
+             })
+             .subscribeOn(Schedulers.io())
+             .observeOn(AndroidSchedulers.mainThread())
+             .subscribe(
+                 meals -> {
+                     if (view != null) {
+                         view.hideLoading();
+                         view.showMeals(meals);
+                     }
+                 },
+                 throwable -> {
+                     if (view != null) {
+                         view.hideLoading();
+                         view.showError("Failed to load meals: " + throwable.getMessage());
+                     }
+                 }
+             )
+     );
+ }
+//@Override
+//public void loadMealsByCategory(String category) {
+//    if (view != null) {
+//        view.showLoading();
+//    }
+//
+//    disposables.add(
+//        apiService.filterByCategory(category)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                response -> {
+//                    if (view != null) {
+//                        view.hideLoading();
+//                        if (response.getMeals() != null) {
+//                            showMeals(response.getMeals());
+//                        }
+//                    }
+//                },
+//                throwable -> {
+//                    if (view != null) {
+//                        view.hideLoading();
+//                        view.showError("Failed to load meals: " + throwable.getMessage());
+//                    }
+//                }
+//            )
+//    );
+//}
+//
+//    @Override
+//    public void loadMealsByArea(String area) {
+//        if (view != null) {
+//            view.showLoading();
+//        }
+//
+//        disposables.add(
+//                apiService.filterByArea(area)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(
+//                                response -> {
+//                                    if (view != null) {
+//                                        view.hideLoading();
+//                                        if (response.getMeals() != null) {
+//                                            view.showMeals(response.getMeals());
+//                                        }
+//                                    }
+//                                },
+//                                throwable -> {
+//                                    if (view != null) {
+//                                        view.hideLoading();
+//                                        view.showError("Failed to load meals: " + throwable.getMessage());
+//                                    }
+//                                }
+//                        )
+//        );
+//    }
     @Override
     public void showMeals(List<Meal> meals) {
         disposables.add(

@@ -24,10 +24,14 @@
                         android:layout_alignEnd="@id/ivMealImage"
                         android:layout_alignParentTop="true"
                         android:layout_margin="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="65dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_favorite"
-                        android:tint="@color/red" />
+                        android:visibility="visible"
+                        app:tint="@color/red" />
 
                     <TextView
                         android:id="@+id/tvMealName"
@@ -36,7 +40,7 @@
                         android:layout_below="@id/ivMealImage"
                         android:padding="8dp"
                         android:textAlignment="center"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
