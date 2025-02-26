@@ -9,9 +9,10 @@ import com.example.mealsplanner.model.FavoriteMeal;
 import com.example.mealsplanner.model.Meal;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -91,7 +92,30 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
                         )
         );
     }
+    @Override
+    public void showMeals(List<Meal> meals) {
+        disposables.add(
+            mealDao.getFavorites()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(favorites -> {
+                    Set<String> favoriteIds = favorites.stream()
+                        .map(FavoriteMeal::getId)
+                        .collect(Collectors.toSet());
 
+                    for (Meal meal : meals) {
+                        meal.setFavorite(favoriteIds.contains(meal.getId()));
+                    }
+                    if (view != null) {
+                        view.showMeals(meals);
+                    }
+                }, throwable -> {
+                    if (view != null) {
+                        view.showError("Error loading favorite status");
+                    }
+                })
+        );
+    }
     @Override
     public void toggleFavorite(Meal meal) {
         if (meal.isFavorite()) {
@@ -138,6 +162,8 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
                             )
             );
         }
+
+
 
     }
 }

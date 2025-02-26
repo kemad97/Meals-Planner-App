@@ -10,5 +10,8 @@ public interface ShowMealsPresenter {
     void detachView();
     void loadMealsByCategory(String category);
     void loadMealsByArea(String area);
+
+    void showMeals(List<Meal> meals);
+
     void toggleFavorite(Meal meal);
 }

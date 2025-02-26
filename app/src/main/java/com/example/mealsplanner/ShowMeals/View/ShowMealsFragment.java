@@ -141,7 +141,13 @@ public class ShowMealsFragment extends Fragment implements ShowMealsView {
 
     @Override
     public void updateFavoriteStatus(Meal meal, boolean isFavorite) {
-
+        if (adapter != null) {
+            int position = adapter.getMealPosition(meal);
+            if (position != -1) {
+                meal.setFavorite(isFavorite);
+                adapter.notifyItemChanged(position);
+            }
+        }
     }
 
     @Override

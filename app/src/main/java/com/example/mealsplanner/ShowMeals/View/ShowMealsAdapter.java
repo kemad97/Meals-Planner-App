@@ -55,6 +55,17 @@ public class ShowMealsAdapter extends RecyclerView.Adapter<ShowMealsAdapter.Meal
         notifyDataSetChanged();
     }
 
+    public int getMealPosition(Meal meal) {
+        if (meals != null) {
+            for (int i = 0; i < meals.size(); i++) {
+                if (meals.get(i).getId().equals(meal.getId())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
     class MealViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivMealImage;
         private final TextView tvMealName;
@@ -100,5 +111,7 @@ public class ShowMealsAdapter extends RecyclerView.Adapter<ShowMealsAdapter.Meal
                     R.drawable.ic_favorite_filled :
                     R.drawable.ic_favorite);
         }
+
+
     }
 }
