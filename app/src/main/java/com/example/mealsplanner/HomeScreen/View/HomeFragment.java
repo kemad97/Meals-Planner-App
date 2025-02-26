@@ -54,7 +54,6 @@ public class HomeFragment extends Fragment implements HomeView {
     private ImageView ivSignout;
     private FirebaseAuth auth;
     private GoogleSignInClient googleSignInClient;
-    private Button btnSignout;
 
 
     @Override
@@ -112,8 +111,12 @@ public class HomeFragment extends Fragment implements HomeView {
         cardMealOfDay = view.findViewById(R.id.cardMealOfDay);
         ivSignout = view.findViewById(R.id.ivSignout);
 
-        ivMealOfDay.setOnClickListener(v->handleMealOfDayClick(view));
-        cardMealOfDay.setOnClickListener(v->handleCardMealOfDayClick(view));
+//        ivMealOfDay.setOnClickListener(v->handleMealOfDayClick(view));
+//        cardMealOfDay.setOnClickListener(v->handleCardMealOfDayClick(view));
+
+        View.OnClickListener mealClickListener = v -> handleMealOfDayClick(v);
+        ivMealOfDay.setOnClickListener(mealClickListener);
+        cardMealOfDay.setOnClickListener(mealClickListener);
     }
 
     private void loadData() {
@@ -173,14 +176,27 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void displayCategories(List<CategoriesItem> categories) {
-        CategoriesAdapter adapter = new CategoriesAdapter(categories);
+        CategoriesAdapter adapter = new CategoriesAdapter(categories, category ->
+                presenter.onCategorySelected(category.getStrCategory())
+        );
         rvCategories.setAdapter(adapter);
     }
 
     @Override
     public void displayAreas(List<Area> areas) {
-        AreasAdapter adapter = new AreasAdapter(areas);
+        AreasAdapter adapter = new AreasAdapter(areas, area ->
+                presenter.onAreaSelected(area.getName())
+        );
         rvCountries.setAdapter(adapter);
+    }
+
+    @Override
+    public void navigateToMealsList(String category, String area) {
+        NavController navController = Navigation.findNavController(requireView());
+        HomeFragmentDirections.ActionHomeFragmentToShowMealsFragment action =
+                HomeFragmentDirections.actionHomeFragmentToShowMealsFragment(category, area);
+        navController.navigate(action);
+
     }
 
     @Override

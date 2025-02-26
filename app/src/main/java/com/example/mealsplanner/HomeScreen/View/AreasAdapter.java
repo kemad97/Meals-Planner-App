@@ -12,14 +12,17 @@ import com.example.mealsplanner.model.Area;
 
 import java.util.List;
 
-public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHolder>
-{
+public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHolder> {
     private final List<Area> areas;
     private OnAreaClickListener listener;
 
     public AreasAdapter(List<Area> areas, OnAreaClickListener listener) {
         this.areas = areas;
         this.listener = listener;
+    }
+
+    public interface OnAreaClickListener {
+        void onAreaClick(Area area);
     }
 
     public AreasAdapter(List<Area> areas) {
@@ -30,6 +33,7 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
     public OnAreaClickListener getListener() {
         return listener;
     }
+
 
     @Override
     public AreaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,19 +60,22 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
         private final TextView tvArea;
 
         public AreaViewHolder(View itemView) {
+
             super(itemView);
             tvArea = itemView.findViewById(R.id.tv_area);
         }
 
-        public void bind(Area area) {
-            tvArea.setText(area.getName());
-            itemView.setOnClickListener(v -> listener.onAreaClick(area));
+        public void bind(final Area area) {
+            if (area != null) {
+                tvArea.setText(area.getName());
+                itemView.setOnClickListener(v -> {
+                    if (listener != null) {
+                        listener.onAreaClick(area);
+                    }
+                });
+            }
         }
+
+
     }
-
-    public interface OnAreaClickListener {
-        void onAreaClick(Area area);
-    }
-
-
 }

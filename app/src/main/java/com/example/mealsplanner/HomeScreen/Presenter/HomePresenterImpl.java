@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class HomePresenterImpl implements HomePresenter {
 
     private final ApiService apiService;
-    private final CompositeDisposable compositeDisposable =new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private HomeView view;
 
     public HomePresenterImpl(ApiService apiService) {
@@ -35,20 +35,20 @@ public class HomePresenterImpl implements HomePresenter {
     public void loadRandomMeal() {
         if (view == null) return;
 
-        
+
         compositeDisposable.add(
                 apiService.getRandomMeal()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+
                                     if (response.getMeals() != null && !response.getMeals().isEmpty()) {
                                         view.displayRandomMeal(response.getMeals().get(0));
                                     }
                                 },
                                 error -> {
-                                  
+
                                     view.showError(error.getMessage());
                                 }
                         )
@@ -59,20 +59,20 @@ public class HomePresenterImpl implements HomePresenter {
     public void loadCategories() {
         if (view == null) return;
 
-        
+
         compositeDisposable.add(
                 apiService.getCategories()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+
                                     if (response.getCategoriesResponse() != null) {
                                         view.displayCategories(response.getCategoriesResponse());
                                     }
                                 },
                                 error -> {
-                                  
+
                                     view.showError(error.getMessage());
                                 }
                         )
@@ -83,20 +83,20 @@ public class HomePresenterImpl implements HomePresenter {
     public void loadAreas() {
         if (view == null) return;
 
-        
+
         compositeDisposable.add(
                 apiService.getAreas("list")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+
                                     if (response.getAreasResponse() != null) {
                                         view.displayAreas(response.getAreasResponse());
                                     }
                                 },
                                 error -> {
-                                  
+
                                     view.showError(error.getMessage());
                                 }
                         )
@@ -107,19 +107,18 @@ public class HomePresenterImpl implements HomePresenter {
     public void onCategorySelected(String category) {
         if (view == null) return;
 
-        
+
         compositeDisposable.add(
                 apiService.filterByCategory(category)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+                                    if (response.getMeals() != null) {
+                                        view.navigateToMealsList(category, null);
+                                    }
                                 },
-                                error -> {
-                                  
-                                    view.showError(error.getMessage());
-                                }
+                                error -> view.showError("Failed to load meals by category: " + error.getMessage())
                         )
         );
     }
@@ -128,23 +127,21 @@ public class HomePresenterImpl implements HomePresenter {
     public void onAreaSelected(String area) {
         if (view == null) return;
 
-        
+
         compositeDisposable.add(
                 apiService.filterByArea(area)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 response -> {
-                                  
+                                    if (response.getMeals() != null) {
+                                        view.navigateToMealsList(null, area);
+                                    }
                                 },
-                                error -> {
-                                  
-                                    view.showError(error.getMessage());
-                                }
+                                error -> view.showError("Failed to load meals by area: " + error.getMessage())
                         )
         );
     }
-
 
 
 }

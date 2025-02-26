@@ -11,4 +11,6 @@ public interface HomeView {
     void displayRandomMeal(Meal meal);
     void displayCategories(List<CategoriesItem> categories);
     void displayAreas(List<Area> areas);
+    void navigateToMealsList(String category, String area);
+
 }

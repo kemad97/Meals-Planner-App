@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_searchFragment_to_showMealsFragment"
             app:destination="@id/showMealsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_showMealsFragment2"
+            app:destination="@id/showMealsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -83,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/showMealsFragment"
-        android:name="com.example.mealsplanner.ShowMealsFragment"
+        android:name="com.example.mealsplanner.ShowMeals.View.ShowMealsFragment"
         android:label="fragment_show_meals"
         tools:layout="@layout/fragment_show_meals" >
         <action
@@ -92,5 +95,18 @@
         <action
             android:id="@+id/action_showMealsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <argument
+            android:name="category"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="area"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_showMealsFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+
+
     </fragment>
 </navigation>
