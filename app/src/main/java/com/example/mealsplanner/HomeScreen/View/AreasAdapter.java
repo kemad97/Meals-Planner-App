@@ -17,6 +17,11 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
     private final List<Area> areas;
     private OnAreaClickListener listener;
 
+    public AreasAdapter(List<Area> areas, OnAreaClickListener listener) {
+        this.areas = areas;
+        this.listener = listener;
+    }
+
     public AreasAdapter(List<Area> areas) {
         this.areas = areas;
     }
@@ -34,7 +39,8 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
 
     @Override
     public void onBindViewHolder(AreaViewHolder holder, int position) {
-        holder.bind(areas.get(position));
+        Area area = areas.get(position);
+        holder.bind(area);
     }
 
     @Override
