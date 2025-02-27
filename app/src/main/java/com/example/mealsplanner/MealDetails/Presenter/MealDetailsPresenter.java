@@ -7,4 +7,6 @@ public interface MealDetailsPresenter {
     void detachView();
     void loadMealDetails(String mealId);
     void toggleFavorite();
+
+    void addMealToCalendar();
 }

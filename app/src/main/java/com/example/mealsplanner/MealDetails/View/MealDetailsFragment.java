@@ -2,10 +2,8 @@ package com.example.mealsplanner.MealDetails.View;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +23,6 @@ import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.MealDetails.Presenter.MealDetailsPresenter;
 import com.example.mealsplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
-import com.example.mealsplanner.MealDetails.View.MealDetailsFragment;
 import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Meal;
 
@@ -41,10 +39,9 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
     private RecyclerView rvIngredients;
     private TextView tvInstructions;
     private WebView webView;
-    private Button btnFavorite;
+    private AppCompatButton btnFavorite;
     private MealDetailsPresenter presenter;
-
-
+    private ImageButton btnCalendar;
 
 
     public MealDetailsFragment() {
@@ -68,27 +65,6 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
         return view;
     }
 
-   /* private void initApiService() {
-        apiService = new Retrofit.Builder()
-                .baseUrl(ApiService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-                .create(ApiService.class);
-
-        ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                if (modelClass.isAssignableFrom(MealViewModel.class)) {
-                    return (T) new MealViewModel(apiService);
-                }
-                throw new IllegalArgumentException("Unknown ViewModel class");
-            }
-        };
-
-        mealViewModel = new ViewModelProvider(this, factory).get(MealViewModel.class);
-    }*/
 
     private void setupPresenter() {
         ApiService apiService = new Retrofit.Builder()
@@ -111,12 +87,14 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
         tvInstructions = view.findViewById(R.id.tvInstructions);
         webView = view.findViewById(R.id.webView);
         btnFavorite = view.findViewById(R.id.btnFavorite);
+        btnCalendar = view.findViewById(R.id.btnCalendar);
 
         rvIngredients = view.findViewById(R.id.rvIngredients);
         rvIngredients.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
 
         btnFavorite.setOnClickListener(v -> presenter.toggleFavorite());
+        btnCalendar.setOnClickListener(v -> {presenter.addMealToCalendar();});
     }
 
 
@@ -179,6 +157,8 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
     public void updateFavoriteStatus(boolean isFavorite) {
         btnFavorite.setText(isFavorite ? "Remove from Favorites" : "Add to Favorites");
     }
+
+    public
 
     @Override
     public void onDestroyView() {

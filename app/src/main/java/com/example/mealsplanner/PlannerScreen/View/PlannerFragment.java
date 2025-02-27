@@ -1,66 +1,105 @@
 package com.example.mealsplanner.PlannerScreen.View;
 
-import android.os.Bundle;
+        import android.os.Bundle;
+        import android.widget.CalendarView;
+        import android.widget.ProgressBar;
+        import android.widget.Toast;
+        import androidx.fragment.app.Fragment;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import com.example.mealsplanner.Data.local.AppDatabase;
+        import com.example.mealsplanner.Data.local.MealDao;
+        import com.example.mealsplanner.PlannerScreen.Presenter.PlannerPresenter;
+        import com.example.mealsplanner.PlannerScreen.Presenter.PlannerPresenterImpl;
+        import com.example.mealsplanner.R;
+        import java.util.Calendar;
+        import java.util.Locale;
 
-import androidx.fragment.app.Fragment;
+        public class PlannerFragment extends Fragment implements PlannerView {
+            private CalendarView calendarView;
+            private RecyclerView rvPlannedMeals;
+            private PlannerPresenter presenter;
+            private MealDao mealDao;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                mealDao = AppDatabase.getInstance(requireContext()).mealDao();
+            }
 
-import com.example.mealsplanner.R;
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
+                View view = inflater.inflate(R.layout.fragment_planner, container, false);
+                initViews(view);
+                setupCalendar();
+                initPresenter();
+                return view;
+            }
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PlannerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PlannerFragment extends Fragment {
+            private void initViews(View view) {
+                calendarView = view.findViewById(R.id.calendarView);
+                rvPlannedMeals = view.findViewById(R.id.rvPlannedMeals);
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+                rvPlannedMeals.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+            private void setupCalendar() {
+                // Set minimum date to today
+                Calendar today = Calendar.getInstance();
+                calendarView.setMinDate(today.getTimeInMillis());
 
-    public PlannerFragment() {
-        // Required empty public constructor
-    }
+                calendarView.setOnDateChangeListener((view, year, month, day) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year, month, day);
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlannerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PlannerFragment newInstance(String param1, String param2) {
-        PlannerFragment fragment = new PlannerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+                    if (selectedDate.getTimeInMillis() >= today.getTimeInMillis()) {
+                        String date = String.format(Locale.getDefault(), "%d-%02d-%02d",
+                            year, month + 1, day);
+                        onDateSelected(date);
+                    } else {
+                        Toast.makeText(getContext(),
+                            "Cannot select past dates", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            private void initPresenter() {
+                presenter = new PlannerPresenterImpl(this, mealDao);
+
+                Calendar today = Calendar.getInstance();
+                String currentDate = String.format(Locale.getDefault(), "%d-%02d-%02d",
+                        today.get(Calendar.YEAR),
+                        today.get(Calendar.MONTH) + 1,
+                        today.get(Calendar.DAY_OF_MONTH));
+                presenter.getMealsForDate(currentDate);
+            }
+
+
+            @Override
+            public void showError(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void updateMealsList() {
+                // TODO: Update RecyclerView with meals data
+                // You'll need to create an adapter and set it here
+            }
+
+            @Override
+            public void onDateSelected(String date) {
+                presenter.getMealsForDate(date);
+            }
+
+            @Override
+            public void onDestroyView() {
+                super.onDestroyView();
+                if (presenter != null) {
+                    presenter.onDestroy();
+                }
+            }
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_planner, container, false);
-    }
-}

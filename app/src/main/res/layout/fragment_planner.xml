@@ -1,8 +1,8 @@
-<!-- fragment_planner.xml -->
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -20,6 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/calendarCard"
         style="@style/MaterialCardView"
@@ -29,8 +31,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="@color/green"
+        app:strokeWidth="2dp"
         app:cardCornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
@@ -39,9 +43,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+
             android:background="@android:color/transparent" />
 
     </com.google.android.material.card.MaterialCardView>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPlannedMeals"
@@ -53,6 +60,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calendarCard" />
+        app:layout_constraintTop_toBottomOf="@id/calendarCard" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

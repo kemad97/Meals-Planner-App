@@ -20,14 +20,14 @@
             android:id="@+id/action_homeFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_guestFragment"
             app:destination="@id/guestFragment" />
         <action
             android:id="@+id/action_homeFragment_to_showMealsFragment"
             app:destination="@id/showMealsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_plannerFragment"
+            app:destination="@id/plannerFragment" />
     </fragment>
     <fragment
         android:id="@+id/mealDetailsFragment"
@@ -67,15 +67,6 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.mealsplanner.profileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/guestFragment"
         android:name="com.example.mealsplanner.GuestFragment"
         android:label="fragment_guest"
@@ -108,5 +99,18 @@
             app:destination="@id/mealDetailsFragment" />
 
 
+    </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.mealsplanner.auth.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/plannerFragment"
+        android:name="com.example.mealsplanner.PlannerScreen.View.PlannerFragment"
+        android:label="PlannerFragment" >
+        <action
+            android:id="@+id/action_plannerFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

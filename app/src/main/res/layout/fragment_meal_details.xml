@@ -25,6 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ivCalendarIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_calendar"
+                android:padding="4dp"/>
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -88,6 +97,8 @@
             android:background="@drawable/buttons_drawable"
             android:text="@string/add_to_favorites"
             android:textColor="@color/white"
+            android:drawableEnd="@drawable/ic_favorite"
+            android:padding="12dp"
             />
     </LinearLayout>
 

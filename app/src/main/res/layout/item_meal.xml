@@ -19,7 +19,7 @@
                         android:scaleType="centerCrop"/>
 
                     <ImageButton
-                        android:id="@+id/btnFavorite"
+                        android:id="@+id/btnCalendar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignEnd="@id/ivMealImage"

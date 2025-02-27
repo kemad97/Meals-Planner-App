@@ -97,5 +97,10 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
 
         }
     }
+
+    @Override
+    public void addMealToCalendar() {
+        
+    }
 }
 
