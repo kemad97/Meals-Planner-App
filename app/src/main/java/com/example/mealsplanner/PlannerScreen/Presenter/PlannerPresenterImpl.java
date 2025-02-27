@@ -39,26 +39,27 @@ public class PlannerPresenterImpl implements PlannerPresenter {
 
     }
 
+
     @Override
     public void getMealsForDate(String date) {
-
         disposable.add(
                 mealDao.getWeeklyPlan(date, date)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 meals -> {
-
-                                    view.updateMealsList();
+                                    if (view != null) {
+                                        view.updateMealsList(meals);
+                                    }
                                 },
                                 throwable -> {
-
-                                    view.showError(throwable.getMessage());
+                                    if (view != null) {
+                                        view.showError(throwable.getMessage());
+                                    }
                                 }
                         )
         );
     }
-
     @Override
     public void onDestroy() {
         disposable.clear();

@@ -8,4 +8,6 @@ public interface MealDetailsView {
     void displayMealDetails(Meal meal);
 
     void setFavorite(boolean isFavorite);
+    void showDatePicker(String mealId);
+
 }

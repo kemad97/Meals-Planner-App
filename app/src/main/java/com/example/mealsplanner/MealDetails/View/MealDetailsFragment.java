@@ -1,8 +1,10 @@
 package com.example.mealsplanner.MealDetails.View;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +28,9 @@ import com.example.mealsplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
 import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Meal;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,7 +46,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
     private WebView webView;
     private AppCompatButton btnFavorite;
     private MealDetailsPresenter presenter;
-    private ImageButton btnCalendar;
+    private AppCompatImageButton btnCalendar;
 
 
     public MealDetailsFragment() {
@@ -87,7 +92,7 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
         tvInstructions = view.findViewById(R.id.tvInstructions);
         webView = view.findViewById(R.id.webView);
         btnFavorite = view.findViewById(R.id.btnFavorite);
-        btnCalendar = view.findViewById(R.id.btnCalendar);
+         btnCalendar = view.findViewById(R.id.btnCalendar);
 
         rvIngredients = view.findViewById(R.id.rvIngredients);
         rvIngredients.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -154,11 +159,33 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
         updateFavoriteStatus(isFavorite);
     }
 
+    @Override
+    public void showDatePicker(String mealId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1); // Start from tomorrow
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    String selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d",
+                            year, month + 1, dayOfMonth);
+                    ((MealDetailsPresenterImpl) presenter).saveMealToDate(mealId, selectedDate);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        // Set minimum date to tomorrow
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        datePickerDialog.show();
+    }
+
     public void updateFavoriteStatus(boolean isFavorite) {
         btnFavorite.setText(isFavorite ? "Remove from Favorites" : "Add to Favorites");
     }
 
-    public
+
 
     @Override
     public void onDestroyView() {

@@ -15,7 +15,10 @@ package com.example.mealsplanner.PlannerScreen.View;
         import com.example.mealsplanner.PlannerScreen.Presenter.PlannerPresenter;
         import com.example.mealsplanner.PlannerScreen.Presenter.PlannerPresenterImpl;
         import com.example.mealsplanner.R;
+        import com.example.mealsplanner.model.WeeklyPlanMeal;
+
         import java.util.Calendar;
+        import java.util.List;
         import java.util.Locale;
 
         public class PlannerFragment extends Fragment implements PlannerView {
@@ -23,6 +26,7 @@ package com.example.mealsplanner.PlannerScreen.View;
             private RecyclerView rvPlannedMeals;
             private PlannerPresenter presenter;
             private MealDao mealDao;
+            private PlannerAdapter adapter = new PlannerAdapter();
 
             @Override
             public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ package com.example.mealsplanner.PlannerScreen.View;
                 rvPlannedMeals = view.findViewById(R.id.rvPlannedMeals);
 
                 rvPlannedMeals.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvPlannedMeals.setAdapter(adapter);
+
             }
 
             private void setupCalendar() {
@@ -85,9 +91,14 @@ package com.example.mealsplanner.PlannerScreen.View;
             }
 
             @Override
-            public void updateMealsList() {
-                // TODO: Update RecyclerView with meals data
-                // You'll need to create an adapter and set it here
+            public void updateMealsList(List<WeeklyPlanMeal> meals) {
+                if (meals.isEmpty()) {
+                    // Show empty state
+                    rvPlannedMeals.setVisibility(View.GONE);
+                } else {
+                    rvPlannedMeals.setVisibility(View.VISIBLE);
+                    adapter.setMeals(meals);
+                }
             }
 
             @Override

@@ -1,10 +1,13 @@
 package com.example.mealsplanner.MealDetails.Presenter;
 
+import android.util.Log;
+
 import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.MealDetails.View.MealDetailsView;
 import com.example.mealsplanner.model.FavoriteMeal;
 import com.example.mealsplanner.model.Meal;
+import com.example.mealsplanner.model.WeeklyPlanMeal;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -98,9 +101,27 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
         }
     }
 
-    @Override
-    public void addMealToCalendar() {
-        
+ @Override
+ public void addMealToCalendar() {
+     if (currentMeal != null && view != null) {
+         Log.d("MealDetailsPresenter", "Opening date picker for meal: " + currentMeal.getId());
+         view.showDatePicker(currentMeal.getId());
+     } else {
+         Log.e("MealDetailsPresenter", "Current meal or view is null");
+     }
+ }
+
+
+    public void saveMealToDate(String mealId, String date) {
+        disposables.add(
+                mealDao.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> view.showError("Meal added to calendar"),
+                                throwable -> view.showError("Error adding meal to calendar")
+                        )
+        );
     }
 }
 
