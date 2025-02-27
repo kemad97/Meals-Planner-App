@@ -117,6 +117,12 @@ public class MealDetailsFragment extends Fragment implements MealDetailsView {
     }
 
     @Override
+    public void showSuccess(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
     public void displayMealDetails(Meal meal) {
         Glide.with(this)
                 .load(meal.getImageUrl())

@@ -33,9 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
                 android:contentDescription="@string/add_to_calendar"
-                android:elevation="6dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_calendar"
+                android:padding="4dp"
+                android:background="@color/light_white"
+                android:src="@drawable/ic_calendar2"
                 tools:ignore="TouchTargetSizeCheck" />
         </com.google.android.material.card.MaterialCardView>
 

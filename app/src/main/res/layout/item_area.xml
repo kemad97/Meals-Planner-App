@@ -16,15 +16,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:maxLines="1"
             android:padding="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

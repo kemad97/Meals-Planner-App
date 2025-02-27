@@ -4,6 +4,7 @@ import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,16 @@ import java.util.List;
 
 public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.ViewHolder> {
     private List<WeeklyPlanMeal> meals = new ArrayList<>();
+    private OnMealDeleteListener deleteListener;
+
+    public interface OnMealDeleteListener {
+        void onMealDelete(WeeklyPlanMeal meal);
+    }
+
+    public void setOnMealDeleteListener(OnMealDeleteListener listener) {
+        this.deleteListener = listener;
+    }
+
 
 
     @NonNull
@@ -35,7 +46,11 @@ public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.ViewHold
         Glide.with(holder.ivMeal.getContext())
                 .load(meal.getMealImage())
                 .into(holder.ivMeal);
-
+        holder.btnDelete.setOnClickListener(v -> {
+            if (deleteListener != null) {
+                deleteListener.onMealDelete(meal);
+            }
+        });
     }
 
 
@@ -52,12 +67,13 @@ public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivMeal;
         TextView tvMealName;
+        ImageButton btnDelete;
 
         public ViewHolder(View view) {
             super(view);
             ivMeal = view.findViewById(R.id.ivMeal);
             tvMealName = view.findViewById(R.id.tvMealName);
-
+            btnDelete = view.findViewById(R.id.btnDelete);
         }
     }
 }

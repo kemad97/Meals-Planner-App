@@ -65,4 +65,22 @@ public class PlannerPresenterImpl implements PlannerPresenter {
         disposable.clear();
         view = null;
     }
+
+    @Override
+    public void removeMealFromDate(WeeklyPlanMeal meal) {
+        disposable.add(
+                mealDao.removeFromWeeklyPlan(meal)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> {
+                                    getMealsForDate(meal.getPlannedDate());
+                                },
+                                throwable -> {
+                                    view.showError(throwable.getMessage());
+                                }
+                        )
+        );
+
+    }
 }

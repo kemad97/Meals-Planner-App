@@ -51,6 +51,9 @@ package com.example.mealsplanner.PlannerScreen.View;
                 rvPlannedMeals.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvPlannedMeals.setAdapter(adapter);
 
+                adapter.setOnMealDeleteListener(meal -> {
+                    presenter.removeMealFromDate(meal);
+                });
             }
 
             private void setupCalendar() {

@@ -76,7 +76,7 @@ public class ShowMealsAdapter extends RecyclerView.Adapter<ShowMealsAdapter.Meal
             super(itemView);
             ivMealImage = itemView.findViewById(R.id.ivMealImage);
             tvMealName = itemView.findViewById(R.id.tvMealName);
-            btnFavorite = itemView.findViewById(R.id.btnCalendar);
+            btnFavorite = itemView.findViewById(R.id.btnFavorite);
         }
 
         void bind(Meal meal) {

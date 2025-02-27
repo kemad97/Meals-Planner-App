@@ -101,27 +101,31 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
         }
     }
 
- @Override
- public void addMealToCalendar() {
-     if (currentMeal != null && view != null) {
-         Log.d("MealDetailsPresenter", "Opening date picker for meal: " + currentMeal.getId());
-         view.showDatePicker(currentMeal.getId());
-     } else {
-         Log.e("MealDetailsPresenter", "Current meal or view is null");
-     }
- }
+    @Override
+    public void addMealToCalendar() {
+        if (currentMeal != null && view != null) {
+            Log.d("MealDetailsPresenter", "Opening date picker for meal: " + currentMeal.getId());
+            view.showDatePicker(currentMeal.getId());
+        } else {
+            Log.e("MealDetailsPresenter", "Current meal or view is null");
+        }
+    }
 
 
     public void saveMealToDate(String mealId, String date) {
-        disposables.add(
-                mealDao.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                () -> view.showError("Meal added to calendar"),
-                                throwable -> view.showError("Error adding meal to calendar")
-                        )
-        );
+        if (currentMeal != null) {
+            WeeklyPlanMeal weeklyPlanMeal = new WeeklyPlanMeal(currentMeal, date);
+            disposables.add(
+                    mealDao.addToWeeklyPlan(weeklyPlanMeal)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    () -> view.showSuccess("Meal added to calendar"),
+                                    throwable -> view.showError("Error adding meal to calendar")
+                            )
+            );
+        }
     }
+
 }
 

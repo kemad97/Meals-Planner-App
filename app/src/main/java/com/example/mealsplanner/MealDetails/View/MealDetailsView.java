@@ -4,6 +4,7 @@ import com.example.mealsplanner.model.Meal;
 
 public interface MealDetailsView {
     void showError(String message);
+    void showSuccess(String message);
 
     void displayMealDetails(Meal meal);
 
