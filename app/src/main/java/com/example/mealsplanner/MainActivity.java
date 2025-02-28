@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -36,6 +37,22 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavView);
             NavigationUI.setupWithNavController(bottomNav, navController);
+
+            //  clear the back stack
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setLaunchSingleTop(true)
+                    .setPopUpTo(navController.getGraph().getStartDestination(), false)
+                    .build();
+
+            bottomNav.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                try {
+                    navController.navigate(itemId, null, navOptions);
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
+            });
         }
     }
 
