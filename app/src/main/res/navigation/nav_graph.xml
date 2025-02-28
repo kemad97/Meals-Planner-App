@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeFragment_to_plannerFragment"
             app:destination="@id/plannerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mealDetailsFragment"
@@ -56,6 +59,9 @@
         <action
             android:id="@+id/action_searchFragment_to_showMealsFragment2"
             app:destination="@id/showMealsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_self"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -71,6 +77,9 @@
         <argument
             android:name="mealId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_favoritesFragment_self"
+            app:destination="@id/favoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/guestFragment"
@@ -128,6 +137,9 @@
         <action
             android:id="@+id/action_plannerFragment_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/action_plannerFragment_self"
+            app:destination="@id/plannerFragment" />
     </fragment>
     <activity
         android:id="@+id/registerActivity"
