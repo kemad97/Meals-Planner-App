@@ -21,13 +21,23 @@ import java.util.List;
 public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.ViewHolder> {
     private List<WeeklyPlanMeal> meals = new ArrayList<>();
     private OnMealDeleteListener deleteListener;
+    private OnMealClickListener clickListener;
+
 
     public interface OnMealDeleteListener {
         void onMealDelete(WeeklyPlanMeal meal);
     }
 
+    public interface OnMealClickListener {
+        void onMealClick(String mealId);
+    }
+
     public void setOnMealDeleteListener(OnMealDeleteListener listener) {
         this.deleteListener = listener;
+    }
+
+    public void setOnMealClickListener(OnMealClickListener listener) {
+        this.clickListener = listener;
     }
 
 
@@ -49,6 +59,12 @@ public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.ViewHold
         holder.btnDelete.setOnClickListener(v -> {
             if (deleteListener != null) {
                 deleteListener.onMealDelete(meal);
+            }
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onMealClick(meal.getMealId());
             }
         });
     }

@@ -5,6 +5,7 @@ package com.example.mealsplanner.PlannerScreen.View;
         import android.widget.ProgressBar;
         import android.widget.Toast;
         import androidx.fragment.app.Fragment;
+        import androidx.navigation.Navigation;
         import androidx.recyclerview.widget.LinearLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
         import android.view.LayoutInflater;
@@ -53,6 +54,13 @@ package com.example.mealsplanner.PlannerScreen.View;
 
                 adapter.setOnMealDeleteListener(meal -> {
                     presenter.removeMealFromDate(meal);
+                });
+
+                adapter.setOnMealClickListener(mealId ->
+                {
+                    // Open meal details screen
+                    PlannerFragmentDirections.ActionPlannerFragmentToMealDetailsFragment action = PlannerFragmentDirections.actionPlannerFragmentToMealDetailsFragment(mealId);
+                    Navigation.findNavController(view).navigate(action);
                 });
             }
 
