@@ -20,14 +20,19 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
     List<FavoriteMeal> meals = new ArrayList<>();
     private OnFavoriteClickListener listener;
+    private OnItemClickListener itemClickListener;
 
+    public interface OnItemClickListener {
+        void onItemClick(FavoriteMeal meal);
+    }
     public interface OnFavoriteClickListener {
         void onFavoriteClick(FavoriteMeal meal);
     }
 
-    public FavoritesAdapter(List<FavoriteMeal> meals, OnFavoriteClickListener listener) {
+    public FavoritesAdapter(List<FavoriteMeal> meals, OnFavoriteClickListener listener, OnItemClickListener itemClickListener) {
         this.meals = meals;
         this.listener = listener;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -78,6 +83,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             btnRemoveFav.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onFavoriteClick(meal);
+                }
+            });
+
+            itemView.setOnClickListener(v -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(meal);
                 }
             });
         }

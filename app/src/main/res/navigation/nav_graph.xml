@@ -65,15 +65,24 @@
         <action
             android:id="@+id/action_favoritesFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_favoritesFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+        <argument
+            android:name="mealId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/guestFragment"
-        android:name="com.example.mealsplanner.GuestFragment"
+        android:name="com.example.mealsplanner.HomeScreen.View.GuestFragment"
         android:label="fragment_guest"
         tools:layout="@layout/fragment_guest" >
         <action
             android:id="@+id/action_guestFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_guestFragment_to_registerActivity"
+            app:destination="@id/registerActivity" />
     </fragment>
     <fragment
         android:id="@+id/showMealsFragment"
@@ -120,4 +129,8 @@
             android:id="@+id/action_plannerFragment_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
     </fragment>
+    <activity
+        android:id="@+id/registerActivity"
+        android:name="com.example.mealsplanner.auth.register.RegisterActivity"
+        android:label="RegisterActivity" />
 </navigation>

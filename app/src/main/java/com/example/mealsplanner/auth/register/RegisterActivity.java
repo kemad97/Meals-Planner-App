@@ -47,6 +47,17 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+    private void initUI() {
+        etName = findViewById(R.id.etName);
+        etEmail = findViewById(R.id.etEmail);
+        etPswd = findViewById(R.id.etPswd);
+        btnSignup = findViewById(R.id.btnSignup);
+        txtSignin = findViewById(R.id.txtSignin);
+        progressBar = findViewById(R.id.progressBar);
+        etConfirmPswd = findViewById(R.id.etConfirmPswd);
+
+
+    }
 
     private void configureSignInText() {
         txtSignin.setOnClickListener(v -> {
@@ -141,15 +152,5 @@ public class RegisterActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void initUI() {
-        etName = findViewById(R.id.etName);
-        etEmail = findViewById(R.id.etEmail);
-        etPswd = findViewById(R.id.etPswd);
-        btnSignup = findViewById(R.id.btnSignup);
-        txtSignin = findViewById(R.id.txtSignin);
-        progressBar = findViewById(R.id.progressBar);
-        etConfirmPswd = findViewById(R.id.etConfirmPswd);
 
-
-    }
 }

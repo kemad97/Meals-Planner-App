@@ -3,6 +3,8 @@ package com.example.mealsplanner.FavoriteScreen.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,8 +50,15 @@ public class FavoritesFragment extends Fragment implements FavoritesView {
     private void setupRecyclerView() {
         adapter = new FavoritesAdapter(new ArrayList<>(), meal -> {
             presenter.removeFavorite(meal.getId());
+        }, meal -> {
+            NavController navController = Navigation.findNavController(requireView());
+            FavoritesFragmentDirections.ActionFavoritesFragmentToMealDetailsFragment action =
+                    FavoritesFragmentDirections.actionFavoritesFragmentToMealDetailsFragment(meal.getId());
+            navController.navigate(action);
         });
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(adapter);
     }
 
@@ -71,6 +80,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView {
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void showLoading() {
