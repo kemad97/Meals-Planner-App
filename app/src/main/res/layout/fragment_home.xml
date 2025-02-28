@@ -93,6 +93,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="14dp"
             app:cardCornerRadius="12dp"
+            app:strokeColor="@color/green"
+            app:strokeWidth="1dp"
             android:clickable="true"
             style="@style/MaterialCardView"
 
@@ -132,10 +134,12 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Categories Section -->
+
         <TextView
             android:id="@+id/tvCategoriesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:text="@string/categories"
             android:textSize="18sp"
@@ -157,6 +161,7 @@
             android:id="@+id/tvCountriesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:text="@string/popular_ingredients"
             android:textSize="18sp"
