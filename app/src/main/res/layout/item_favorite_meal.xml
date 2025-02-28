@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
+    app:strokeColor="@color/green"
+    app:strokeWidth="1.5dp"
     style="@style/MaterialCardView"
     app:cardElevation="4dp">
 
@@ -35,9 +37,9 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:background="@drawable/buttons_drawable"
-            android:backgroundTint="@color/red"
             android:padding="8dp"
-            android:text="@string/remove_from_favourite"
+            android:drawableEnd="@drawable/ic_heart_minus"
+            android:text="@string/remove_favorite"
             android:textColor="@color/white" />
 
     </LinearLayout>

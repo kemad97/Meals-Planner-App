@@ -55,11 +55,14 @@ public class ShowMealsFragment extends Fragment implements ShowMealsView {
                 ShowMealsFragmentArgs args = ShowMealsFragmentArgs.fromBundle(getArguments());
                 String category = args.getCategory();
                 String area = args.getArea();
+                String ingredient = args.getIngredient();
 
                 if (category != null && !category.isEmpty()) {
                     presenter.loadMealsByCategory(category);
                 } else if (area != null && !area.isEmpty()) {
                     presenter.loadMealsByArea(area);
+                } else if (ingredient != null && !ingredient.isEmpty()) {
+                    presenter.loadMealsByIngredient(ingredient);
                 }
             }
         }

@@ -46,4 +46,6 @@
     <string name="your_week_plan">Your Week Plan:</string>
     <string name="add_to_calendar">Add to calendar</string>
     <string name="your_daily_planner">Your Daily Planner</string>
+    <string name="popular_ingredients">Popular Ingredients</string>
+    <string name="remove_favorite">Remove Favorite</string>
 </resources>

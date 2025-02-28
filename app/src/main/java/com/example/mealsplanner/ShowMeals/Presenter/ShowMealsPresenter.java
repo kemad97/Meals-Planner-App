@@ -11,6 +11,8 @@ public interface ShowMealsPresenter {
     void loadMealsByCategory(String category);
     void loadMealsByArea(String area);
 
+    void loadMealsByIngredient(String ingredient);
+
     void showMeals(List<Meal> meals);
 
     void toggleFavorite(Meal meal);

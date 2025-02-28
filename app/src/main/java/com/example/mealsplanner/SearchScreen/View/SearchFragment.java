@@ -193,15 +193,14 @@ public class SearchFragment extends Fragment implements SearchView {
 
     @Override
     public void displayIngredients(List<Meal.Ingredient> ingredients) {
-        IngredientsAdapter adapter=new IngredientsAdapter(ingredients);
+        IngredientsAdapter adapter = new IngredientsAdapter(ingredients);
         adapter.setListener(ingredient -> {
             SearchFragmentDirections.ActionSearchFragmentToShowMealsFragment action =
-                    SearchFragmentDirections.actionSearchFragmentToShowMealsFragment(null,null,ingredient.getName());
+                    SearchFragmentDirections.actionSearchFragmentToShowMealsFragment(null, null, ingredient.getName());
             action.setIngredient(ingredient.getName());
             Navigation.findNavController(requireView()).navigate(action);
         });
         rvIngredients.setAdapter(adapter);
-
     }
 
 

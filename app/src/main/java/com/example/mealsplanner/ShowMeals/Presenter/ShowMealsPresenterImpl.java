@@ -85,6 +85,50 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
         );
     }
 
+    @Override
+    public void loadMealsByIngredient(String ingredient) {
+        if (view != null) {
+            view.showLoading();
+        }
+
+        disposables.add(
+                apiService.filterByIngredient(ingredient)
+                        .flatMap(response -> {
+                            if (response.getMeals() != null) {
+                                return mealDao.getFavorites()
+                                        .map(favorites -> {
+                                            Set<String> favoriteIds = favorites.stream()
+                                                    .map(FavoriteMeal::getId)
+                                                    .collect(Collectors.toSet());
+
+                                            List<Meal> meals = response.getMeals();
+                                            for (Meal meal : meals) {
+                                                meal.setFavorite(favoriteIds.contains(meal.getId()));
+                                            }
+                                            return meals;
+                                        });
+                            }
+                            return Single.just(new ArrayList<Meal>());
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                meals -> {
+                                    if (view != null) {
+                                        view.hideLoading();
+                                        view.showMeals(meals);
+                                    }
+                                },
+                                throwable -> {
+                                    if (view != null) {
+                                        view.hideLoading();
+                                        view.showError("Failed to load meals: " + throwable.getMessage());
+                                    }
+                                }
+                        )
+        );
+    }
+
  @Override
  public void loadMealsByArea(String area) {
      if (view != null) {
@@ -128,63 +172,7 @@ public class ShowMealsPresenterImpl implements ShowMealsPresenter {
              )
      );
  }
-//@Override
-//public void loadMealsByCategory(String category) {
-//    if (view != null) {
-//        view.showLoading();
-//    }
-//
-//    disposables.add(
-//        apiService.filterByCategory(category)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                response -> {
-//                    if (view != null) {
-//                        view.hideLoading();
-//                        if (response.getMeals() != null) {
-//                            showMeals(response.getMeals());
-//                        }
-//                    }
-//                },
-//                throwable -> {
-//                    if (view != null) {
-//                        view.hideLoading();
-//                        view.showError("Failed to load meals: " + throwable.getMessage());
-//                    }
-//                }
-//            )
-//    );
-//}
-//
-//    @Override
-//    public void loadMealsByArea(String area) {
-//        if (view != null) {
-//            view.showLoading();
-//        }
-//
-//        disposables.add(
-//                apiService.filterByArea(area)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(
-//                                response -> {
-//                                    if (view != null) {
-//                                        view.hideLoading();
-//                                        if (response.getMeals() != null) {
-//                                            view.showMeals(response.getMeals());
-//                                        }
-//                                    }
-//                                },
-//                                throwable -> {
-//                                    if (view != null) {
-//                                        view.hideLoading();
-//                                        view.showError("Failed to load meals: " + throwable.getMessage());
-//                                    }
-//                                }
-//                        )
-//        );
-//    }
+
     @Override
     public void showMeals(List<Meal> meals) {
         disposables.add(

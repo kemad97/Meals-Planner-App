@@ -5,6 +5,8 @@
     android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
+    app:strokeColor="@color/green"
+    app:strokeWidth="1dp"
     style="@style/MaterialCardView">
 
 
