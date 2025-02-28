@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mealsplanner.BaseFragment;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenterImpl;
@@ -44,7 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends BaseFragment implements HomeView {
     private HomePresenter presenter;
     private RecyclerView rvCategories;
     private RecyclerView rvCountries;
@@ -120,11 +121,13 @@ public class HomeFragment extends Fragment implements HomeView {
         cardMealOfDay.setOnClickListener(mealClickListener);
     }
 
-    private void loadData() {
-        presenter.loadRandomMeal();
-        presenter.loadCategories();
-        presenter.loadAreas();
-        presenter.loadIngredients();
+    protected void loadData() {
+        if (com.examplecontent.Context.NetworkUtils.isNetworkAvailable(requireContext())) {
+            presenter.loadRandomMeal();
+            presenter.loadCategories();
+            presenter.loadAreas();
+            presenter.loadIngredients();
+        }
     }
 
     private void handleCardMealOfDayClick(View view) {

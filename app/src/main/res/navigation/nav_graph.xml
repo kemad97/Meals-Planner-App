@@ -235,4 +235,9 @@
         android:id="@+id/registerActivity"
         android:name="com.example.mealsplanner.auth.register.RegisterActivity"
         android:label="RegisterActivity"/>
+    <fragment
+        android:id="@+id/baseFragment"
+        android:name="com.example.mealsplanner.BaseFragment"
+        android:label="fragment_base"
+        tools:layout="@layout/fragment_base" />
 </navigation>
