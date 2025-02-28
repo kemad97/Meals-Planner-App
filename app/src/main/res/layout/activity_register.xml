@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    tools:context=".auth.login.LoginActivity">
 
 
     <EditText
@@ -87,16 +87,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="@string/aleardy_a_member"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/cardGoogle" />
 
     <TextView
         android:id="@+id/txtSignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/sign_in2"
@@ -104,29 +104,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/imgFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/cardGoogle" />
 
-    <ImageView
-        android:id="@+id/imgFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:srcCompat="@drawable/facebook" />
 
-    <ImageView
-        android:id="@+id/imgGoogle"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="131dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.843"
-        app:layout_constraintStart_toEndOf="@+id/imgFacebook"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:srcCompat="@drawable/google" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgGoogle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            app:srcCompat="@drawable/google" />
+    </androidx.cardview.widget.CardView>
 
     <View
         android:id="@+id/divider"
@@ -137,7 +135,6 @@
         android:layout_marginBottom="20dp"
         android:background="?android:attr/listDivider"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/imgFacebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +151,9 @@
         android:ems="10"
         android:hint="@string/enter_password2"
         android:inputType="textPassword"
+
         android:padding="10dp"
+        android:password="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEmail" />
@@ -206,5 +205,19 @@
         android:text="@string/confirm_password"
         app:layout_constraintBottom_toTopOf="@+id/etConfirmPswd"
         app:layout_constraintStart_toStartOf="@+id/etConfirmPswd" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:indeterminateTint="@color/green"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
