@@ -20,6 +20,7 @@ import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenterImpl;
 import com.example.mealsplanner.HomeScreen.View.HomeFragmentDirections;
+import com.example.mealsplanner.MealDetails.View.IngredientsAdapter;
 import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
@@ -123,6 +124,7 @@ public class HomeFragment extends Fragment implements HomeView {
         presenter.loadRandomMeal();
         presenter.loadCategories();
         presenter.loadAreas();
+        presenter.loadIngredients();
     }
 
     private void handleCardMealOfDayClick(View view) {
@@ -191,10 +193,18 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void navigateToMealsList(String category, String area) {
+    public void displayIngredients(List<Meal.Ingredient> ingredients) {
+        IngredientsAdapter adapter = new IngredientsAdapter(ingredients, ingredient ->
+                presenter.onIngredientSelected(ingredient.getName())
+        );
+        rvCountries.setAdapter(adapter);
+    }
+
+    @Override
+    public void navigateToMealsList(String category, String area, String ing) {
         NavController navController = Navigation.findNavController(requireView());
         HomeFragmentDirections.ActionHomeFragmentToShowMealsFragment action =
-                HomeFragmentDirections.actionHomeFragmentToShowMealsFragment(category, area);
+                HomeFragmentDirections.actionHomeFragmentToShowMealsFragment(category, area,ing);
         navController.navigate(action);
 
     }

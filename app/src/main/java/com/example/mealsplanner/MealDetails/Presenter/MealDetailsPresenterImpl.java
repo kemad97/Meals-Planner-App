@@ -116,15 +116,27 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
         if (currentMeal != null) {
             WeeklyPlanMeal weeklyPlanMeal = new WeeklyPlanMeal(currentMeal, date);
             disposables.add(
-                    mealDao.addToWeeklyPlan(weeklyPlanMeal)
+                    mealDao.isMealPlannedForDate(mealId, date)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                    () -> view.showSuccess("Meal added to calendar"),
-                                    throwable -> view.showError("Error adding meal to calendar")
-                            )
+                            .subscribe(exists -> {
+                                if (exists) {
+                                    view.showError("This meal is already planned for this date");
+                                } else {
+                                    mealDao.addToWeeklyPlan(weeklyPlanMeal)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(
+                                                    () -> {
+                                                        view.showSuccess("Meal added to calendar");
+                                                    },
+                                                    throwable -> view.showError("Error adding meal to calendar")
+                                            );
+                                }
+                            }, throwable -> view.showError("Error checking meal plan"))
             );
         }
+
     }
 
 }

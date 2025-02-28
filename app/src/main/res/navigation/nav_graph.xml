@@ -94,6 +94,10 @@
             android:name="area"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="ingredient"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_showMealsFragment_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />

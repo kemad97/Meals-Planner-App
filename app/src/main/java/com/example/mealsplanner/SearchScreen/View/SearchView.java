@@ -12,5 +12,4 @@ public interface SearchView {
     void displayAreas(List<Area> areas);
     void displayIngredients(List<Meal.Ingredient> ingredients);
 
-    void displaySearchResults(List<Meal> meals);
 }

@@ -31,8 +31,11 @@ public interface MealDao {
     Single<Boolean> isFavorite(String mealId);
 
     // Weekly Plan
-    @Query("SELECT * FROM weekly_plan WHERE planned_date BETWEEN :startDate AND :endDate")
-    Single<List<WeeklyPlanMeal>> getWeeklyPlan(String startDate, String endDate);
+    @Query("SELECT * FROM weekly_plan WHERE planned_date = :date")
+    Single<List<WeeklyPlanMeal>> getWeeklyPlan(String date);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM weekly_plan WHERE meal_id = :mealId AND planned_date = :date)")
+    Single<Boolean> isMealPlannedForDate(String mealId, String date);
 
     @Insert
     Completable addToWeeklyPlan(WeeklyPlanMeal meal);

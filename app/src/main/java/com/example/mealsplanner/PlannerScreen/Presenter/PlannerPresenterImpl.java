@@ -18,32 +18,12 @@ public class PlannerPresenterImpl implements PlannerPresenter {
         this.mealDao = mealDao;
     }
 
-    @Override
-    public void addMealToDate(String mealId, String date) {
-
-        disposable.add(
-                mealDao.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                () -> {
-
-                                    getMealsForDate(date);
-                                },
-                                throwable -> {
-
-                                    view.showError(throwable.getMessage());
-                                }
-                        )
-        );
-
-    }
 
 
     @Override
     public void getMealsForDate(String date) {
         disposable.add(
-                mealDao.getWeeklyPlan(date, date)
+                mealDao.getWeeklyPlan(date)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
@@ -53,9 +33,7 @@ public class PlannerPresenterImpl implements PlannerPresenter {
                                     }
                                 },
                                 throwable -> {
-                                    if (view != null) {
                                         view.showError(throwable.getMessage());
-                                    }
                                 }
                         )
         );
@@ -66,6 +44,20 @@ public class PlannerPresenterImpl implements PlannerPresenter {
         view = null;
     }
 
+
+    private void addMealToWeeklyPlan(String mealId, String date) {
+        disposable.add(
+                mealDao.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> {
+                                    getMealsForDate(date);
+                                },
+                                throwable -> view.showError(throwable.getMessage())
+                        )
+        );
+    }
     @Override
     public void removeMealFromDate(WeeklyPlanMeal meal) {
         disposable.add(

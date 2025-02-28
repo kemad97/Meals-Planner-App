@@ -28,6 +28,9 @@ public interface ApiService {
     @GET("filter.php")
     Single<MealResponse> filterByArea(@Query("a") String area);
 
+    @GET("filter.php")
+    Single<MealResponse> filterByIngredient(@Query("i") String ingredient);
+
     @GET("lookup.php")
     Single<MealResponse> getMealById(@Query("i") String id);
 

@@ -104,6 +104,24 @@ public class HomePresenterImpl implements HomePresenter {
     }
 
     @Override
+    public void loadIngredients() {
+        if (view == null) return;
+        compositeDisposable.add(
+                apiService.getIngredients()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getIngredients() != null) {
+                                        view.displayIngredients(response.getIngredients());
+                                    }
+                                },
+                                error -> view.showError("Failed to load ingredients: " + error.getMessage())
+                        )
+        );
+    }
+
+    @Override
     public void onCategorySelected(String category) {
         if (view == null) return;
 
@@ -115,7 +133,7 @@ public class HomePresenterImpl implements HomePresenter {
                         .subscribe(
                                 response -> {
                                     if (response.getMeals() != null) {
-                                        view.navigateToMealsList(category, null);
+                                        view.navigateToMealsList(category, null, null);
                                     }
                                 },
                                 error -> view.showError("Failed to load meals by category: " + error.getMessage())
@@ -135,7 +153,7 @@ public class HomePresenterImpl implements HomePresenter {
                         .subscribe(
                                 response -> {
                                     if (response.getMeals() != null) {
-                                        view.navigateToMealsList(null, area);
+                                        view.navigateToMealsList(null, area, null);
                                     }
                                 },
                                 error -> view.showError("Failed to load meals by area: " + error.getMessage())
@@ -143,5 +161,22 @@ public class HomePresenterImpl implements HomePresenter {
         );
     }
 
+    @Override
+    public void onIngredientSelected(String ing) {
+        if (view == null) return;
+        compositeDisposable.add(
+                apiService.filterByIngredient(ing)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    if (response.getMeals() != null) {
+                                        view.navigateToMealsList(null, null, ing);
+                                    }
+                                },
+                                error -> view.showError("Failed to load meals by area: " + error.getMessage())
+                        )
+        );
 
+    }
 }

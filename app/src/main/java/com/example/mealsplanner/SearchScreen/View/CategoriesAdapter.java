@@ -18,7 +18,15 @@ import java.util.List;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
     private List<CategoriesItem> categories;
+    private OnCategoryClickListener listener;
 
+    public interface OnCategoryClickListener {
+        void onCategoryClick(String category);
+    }
+
+    public void setOnCategoryClickListener(OnCategoryClickListener listener) {
+        this.listener = listener;
+    }
     public CategoriesAdapter() {
     }
 
@@ -41,6 +49,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         Glide.with(holder.itemView.getContext())
                 .load(category.getStrCategoryThumb())
                 .into(holder.ivCategoryImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onCategoryClick(category.getStrCategory());
+            }
+        });
     }
 
     @Override

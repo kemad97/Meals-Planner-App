@@ -17,6 +17,9 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
     private final List<Area> areas;
     private OnAreaClickListener listener;
 
+    public interface OnAreaClickListener {
+        void onAreaClick(Area area);
+    }
     public AreasAdapter(List<Area> areas) {
         this.areas = areas;
     }
@@ -56,13 +59,15 @@ public class AreasAdapter extends RecyclerView.Adapter<AreasAdapter.AreaViewHold
 
         public void bind(Area area) {
             tvArea.setText(area.getName());
-            itemView.setOnClickListener(v -> listener.onAreaClick(area));
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onAreaClick(area);
+                }
+            });
         }
     }
 
-    public interface OnAreaClickListener {
-        void onAreaClick(Area area);
-    }
+
 
 
 }

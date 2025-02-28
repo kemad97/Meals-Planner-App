@@ -18,9 +18,23 @@ import java.util.List;
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder>
 {
     private final List<Meal.Ingredient> ingredientList;
+    private OnIngredientClickListener listener;
+
+    public interface OnIngredientClickListener {
+        void onIngredientClick(Meal.Ingredient ingredient);
+    }
+
+    public void setListener(OnIngredientClickListener listener) {
+        this.listener = listener;
+    }
 
     public IngredientsAdapter(List<Meal.Ingredient> ingredientList) {
         this.ingredientList = ingredientList;
+    }
+
+    public IngredientsAdapter(List<Meal.Ingredient> ingredientList, OnIngredientClickListener listener) {
+        this.ingredientList = ingredientList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -40,6 +54,11 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         Glide.with(holder.itemView.getContext())
                 .load(ingredient.getImageUrl())
                 .into(holder.ivIngredientImage);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onIngredientClick(ingredient);
+            }
+        });
     }
 
     @Override

@@ -15,4 +15,7 @@ public interface HomePresenter {
     void loadAreas();
     void onCategorySelected(String category);
     void onAreaSelected(String area);
+    void onIngredientSelected(String ingredient);
+
+    void loadIngredients();
 }
