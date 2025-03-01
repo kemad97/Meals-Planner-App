@@ -2,6 +2,7 @@ package com.example.mealsplanner;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -53,7 +54,18 @@ public class MainActivity extends AppCompatActivity {
         if (isGuest && navController != null) {
             navController.navigate(R.id.guestFragment);
 
+            getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    // Navigate to login when back is pressed in guest mode
+                    navController.navigate(R.id.loginActivity, null,
+                            new NavOptions.Builder()
+                                    .setPopUpTo(navController.getGraph().getStartDestination(), true)
+                                    .build());
+                }
+            });
+        }
+
         }
     }
 
-}

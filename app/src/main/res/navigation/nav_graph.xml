@@ -31,13 +31,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
         <action
-            android:id="@+id/action_homeFragment_to_guestFragment"
-            app:destination="@id/guestFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
             android:id="@+id/action_homeFragment_to_showMealsFragment"
             app:destination="@id/showMealsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -61,6 +54,9 @@
         <action
             android:id="@+id/action_homeFragment_to_noNetworkFragment"
             app:destination="@id/noNetworkFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
 
     <fragment
@@ -145,13 +141,6 @@
         android:label="fragment_guest"
         tools:layout="@layout/fragment_guest">
         <action
-            android:id="@+id/action_guestFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
             android:id="@+id/action_guestFragment_to_registerActivity"
             app:destination="@id/registerActivity"
             app:enterAnim="@anim/slide_in_right"
@@ -205,7 +194,7 @@
 
     <activity
         android:id="@+id/loginActivity"
-        android:name="com.example.mealsplanner.auth.login.LoginActivity"
+        android:name="com.example.mealsplanner.auth.login.View.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login"/>
 

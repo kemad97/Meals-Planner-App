@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mealsplanner.MainActivity;
 import com.example.mealsplanner.R;
-import com.example.mealsplanner.auth.login.LoginActivity;
+import com.example.mealsplanner.auth.login.View.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

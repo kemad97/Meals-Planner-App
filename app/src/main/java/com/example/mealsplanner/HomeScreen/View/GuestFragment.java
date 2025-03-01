@@ -127,6 +127,7 @@ public class GuestFragment extends Fragment implements HomeView {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
     public void displayRandomMeal(Meal meal) {
         mealOfTheDay = meal;

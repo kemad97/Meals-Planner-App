@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -95,15 +96,18 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
     }
 
-    private void signOut() {
-        auth.signOut();
-        googleSignInClient.signOut()
-                .addOnCompleteListener(requireActivity(), task -> {
-                    NavController navController = Navigation.findNavController(requireView());
-                    navController.navigate(R.id.action_homeFragment_to_guestFragment);
-                });
-    }
-
+private void signOut() {
+    auth.signOut();
+    googleSignInClient.signOut()
+            .addOnCompleteListener(requireActivity(), task -> {
+                NavController navController = Navigation.findNavController(requireView());
+                // Clear entire back stack and navigate to login
+                navController.navigate(R.id.loginActivity, null,
+                        new NavOptions.Builder()
+                                .setPopUpTo(navController.getGraph().getStartDestination(), true)
+                                .build());
+            });
+}
     private void initViews(View view) {
         rvCategories = view.findViewById(R.id.rvCategories);
         rvCountries = view.findViewById(R.id.rvCountries);
