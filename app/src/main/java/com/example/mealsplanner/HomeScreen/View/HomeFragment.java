@@ -114,24 +114,22 @@ private void signOut() {
     }
 
     protected void loadData() {
-        checkNetworkAndExecute(() -> {
             presenter.loadRandomMeal();
             presenter.loadCategories();
             presenter.loadAreas();
             presenter.loadIngredients();
-        });
     }
 
     private void handleMealOfDayClick(View view) {
-        checkNetworkAndExecute(() -> {
             if (mealOfTheDay != null) {
                 NavController navController = Navigation.findNavController(view);
                 HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
                         HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
                 navController.navigate(action);
             }
-        });
-    }
+        }
+
+
 
     private void setupPresenter() {
         ApiService apiService = new Retrofit.Builder()
@@ -198,5 +196,12 @@ private void signOut() {
     public void navigateToNoNetwork() {
         NavController navController = Navigation.findNavController(requireView());
         navController.navigate(R.id.action_homeFragment_to_noNetworkFragment);
+    }
+
+    @Override
+    public void onNetworkLost() {
+        requireActivity().runOnUiThread(() -> {
+            navigateToNoNetwork();
+        });
     }
 }

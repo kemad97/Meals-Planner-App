@@ -4,10 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
@@ -28,8 +26,6 @@ import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.internal.TextWatcherAdapter;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -41,7 +37,6 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 
 public class SearchFragment extends BaseFragment implements SearchView {
@@ -78,12 +73,7 @@ public class SearchFragment extends BaseFragment implements SearchView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        checkNetworkAndExecute(() -> {
-            initTextWatcher();
-            handleChipListeners();
-
             presenter.loadCategories();
-        });
     }
 
 
@@ -183,13 +173,11 @@ public class SearchFragment extends BaseFragment implements SearchView {
         CategoriesAdapter adapter=new CategoriesAdapter(categories);
 
         adapter.setOnCategoryClickListener(category -> {
-            checkNetworkAndExecute(() -> {
 
                 SearchFragmentDirections.ActionSearchFragmentToShowMealsFragment action =
                     SearchFragmentDirections.actionSearchFragmentToShowMealsFragment(category,null,null);
             action.setCategory(category);
             Navigation.findNavController(requireView()).navigate(action);
-        });
         });
 
         rvCategories.setAdapter(adapter);
@@ -199,7 +187,6 @@ public class SearchFragment extends BaseFragment implements SearchView {
     @Override
     public void displayAreas(List<Area> areas) {
         AreasAdapter adapter=new AreasAdapter(areas);
-        checkNetworkAndExecute(() -> {
 
             adapter.setListener(area -> {
             SearchFragmentDirections.ActionSearchFragmentToShowMealsFragment action =
@@ -207,7 +194,6 @@ public class SearchFragment extends BaseFragment implements SearchView {
             action.setArea(area.getName());
             Navigation.findNavController(requireView()).navigate(action);
         });
-    });
 
         rvAreas.setAdapter(adapter);
 
@@ -217,13 +203,11 @@ public class SearchFragment extends BaseFragment implements SearchView {
     public void displayIngredients(List<Meal.Ingredient> ingredients) {
         IngredientsAdapter adapter = new IngredientsAdapter(ingredients);
         adapter.setListener(ingredient -> {
-            checkNetworkAndExecute(() -> {
 
                 SearchFragmentDirections.ActionSearchFragmentToShowMealsFragment action =
                     SearchFragmentDirections.actionSearchFragmentToShowMealsFragment(null, null, ingredient.getName());
             action.setIngredient(ingredient.getName());
             Navigation.findNavController(requireView()).navigate(action);
-        });
         });
 
         rvIngredients.setAdapter(adapter);
@@ -236,4 +220,17 @@ public class SearchFragment extends BaseFragment implements SearchView {
     }
 
 
+    @Override
+    public void onNetworkLost() {
+        requireActivity().runOnUiThread(() -> {
+            navigateToNoNetwork();
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        compositeDisposable.clear();
+        presenter.detachView();
+    }
 }

@@ -74,6 +74,9 @@
         <argument
             android:name="mealId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_mealDetailsFragment_to_noNetworkFragment"
+            app:destination="@id/noNetworkFragment" />
     </fragment>
 
     <fragment
@@ -193,6 +196,15 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_showMealsFragment_to_noNetworkFragment"
+            app:destination="@id/noNetworkFragment" />
+        <action
+            android:id="@+id/action_showMealsFragment_to_noNetworkFragment2"
+            app:destination="@id/noNetworkFragment" />
+        <action
+            android:id="@+id/action_showMealsFragment_to_noNetworkFragment3"
+            app:destination="@id/noNetworkFragment" />
     </fragment>
 
     <activity

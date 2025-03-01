@@ -24,10 +24,7 @@ public class NoNetworkFragment extends Fragment {
         btnRetry.setOnClickListener(v -> {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
                 NavController navController = Navigation.findNavController(requireView());
-                navController.navigate(R.id.loginActivity, null,
-                        new NavOptions.Builder()
-                                .setPopUpTo(navController.getGraph().getStartDestination(), true)
-                                .build());
+                navController.popBackStack(R.id.homeFragment, false);
             }
         });
         return view;
