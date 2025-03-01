@@ -46,15 +46,24 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
     public void loadMealDetails(String mealId) {
         disposables.add(
                 apiService.getMealById(mealId)
+                        .flatMap(response -> {
+                            if (response.getMeals() != null && !response.getMeals().isEmpty()) {
+                                currentMeal = response.getMeals().get(0);
+                                // Check if meal is in favorites
+                                return mealDao.isFavorite(mealId)
+                                        .map(isFavorite -> {
+                                            currentMeal.setFavorite(isFavorite);
+                                            return currentMeal;
+                                        });
+                            }
+                            return io.reactivex.rxjava3.core.Single.error(new Exception("Meal not found"));
+                        })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                response -> {
-                                    if (response.getMeals() != null && !response.getMeals().isEmpty()) {
-                                        currentMeal = response.getMeals().get(0);
-                                        if (view != null) {
-                                            view.displayMealDetails(currentMeal);
-                                        }
+                                meal -> {
+                                    if (view != null) {
+                                        view.displayMealDetails(meal);
                                     }
                                 },
                                 throwable -> {
@@ -104,7 +113,6 @@ public class MealDetailsPresenterImpl implements MealDetailsPresenter {
     @Override
     public void addMealToCalendar() {
         if (currentMeal != null && view != null) {
-            Log.d("MealDetailsPresenter", "Opening date picker for meal: " + currentMeal.getId());
             view.showDatePicker(currentMeal.getId());
         } else {
             Log.e("MealDetailsPresenter", "Current meal or view is null");

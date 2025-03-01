@@ -55,7 +55,6 @@ public class FavPresenterImpl implements  FavPresenter {
     @Override
     public void onDestroy() {
         disposables.clear();
-
     }
 
 }

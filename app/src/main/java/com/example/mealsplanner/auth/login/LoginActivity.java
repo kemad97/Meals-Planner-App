@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void navigateToGuestFragment() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.EXTRA_IS_GUEST, true);
+        intent.putExtra(MainActivity.IS_GUEST, true);
         startActivity(intent);
         finish();
     }

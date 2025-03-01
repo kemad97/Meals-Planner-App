@@ -16,7 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_IS_GUEST = "is_guest";
+    public static final String IS_GUEST = "is_guest";
     private NavController navController;
 
 
@@ -38,26 +38,18 @@ public class MainActivity extends AppCompatActivity {
             BottomNavigationView bottomNav = findViewById(R.id.bottomNavView);
             NavigationUI.setupWithNavController(bottomNav, navController);
 
-            //  clear the back stack
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setLaunchSingleTop(true)
-                    .setPopUpTo(navController.getGraph().getStartDestination(), false)
-                    .build();
 
             bottomNav.setOnItemSelectedListener(item -> {
-                int itemId = item.getItemId();
-                try {
-                    navController.navigate(itemId, null, navOptions);
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
+                // Clear back stack and navigate to selected destination
+                navController.popBackStack();
+                navController.navigate(item.getItemId());
+                return true;
             });
         }
     }
 
     private void handleGuestMode() {
-        boolean isGuest = getIntent().getBooleanExtra(EXTRA_IS_GUEST, false);
+        boolean isGuest = getIntent().getBooleanExtra(IS_GUEST, false);
         if (isGuest && navController != null) {
             navController.navigate(R.id.guestFragment);
 

@@ -30,10 +30,13 @@
             android:layout_marginTop="65dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+
+            android:clickable="true"
+            android:focusable="true"
             android:background="@null"
             android:elevation="4dp"
             android:src="@drawable/ic_favorite"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tvMealName"
