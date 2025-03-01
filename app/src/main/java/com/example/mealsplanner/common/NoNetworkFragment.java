@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mealsplanner.R;
 
@@ -24,7 +25,12 @@ public class NoNetworkFragment extends Fragment {
         btnRetry.setOnClickListener(v -> {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
                 NavController navController = Navigation.findNavController(requireView());
-                navController.popBackStack(R.id.homeFragment, false);
+                NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(navController.getGraph().getStartDestination(), true)
+                    .build();
+                navController.navigate(R.id.loginActivity, null, navOptions);
+            } else {
+                Toast.makeText(requireContext(), "Please check your network settings.", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
