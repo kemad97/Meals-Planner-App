@@ -1,5 +1,6 @@
 package com.example.mealsplanner.FavoriteScreen.View;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -92,6 +93,16 @@ public class FavoritesFragment extends Fragment implements FavoritesView {
         progressBar.setVisibility(View.GONE);
     }
 
+
+    @Override
+    public void showRemoveConfirmationDialog(Runnable onConfirm) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Remove Favorite")
+                .setMessage("Are you sure you want to remove this meal from favorites?")
+                .setPositiveButton("Yes", (dialog, which) -> onConfirm.run())
+                .setNegativeButton("No", null)
+                .show();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

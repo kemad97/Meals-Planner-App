@@ -9,4 +9,5 @@ public interface FavoritesView {
     void showError(String message);
     void showLoading();
     void hideLoading();
+    void showRemoveConfirmationDialog(Runnable onConfirm);
 }

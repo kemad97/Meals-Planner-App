@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".auth.register.RegisterActivity"
+            android:name=".auth.register.View.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".auth.login.View.LoginActivity"

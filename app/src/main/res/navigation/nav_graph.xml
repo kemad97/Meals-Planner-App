@@ -228,7 +228,7 @@
 
     <activity
         android:id="@+id/registerActivity"
-        android:name="com.example.mealsplanner.auth.register.RegisterActivity"
+        android:name="com.example.mealsplanner.auth.register.View.RegisterActivity"
         android:label="RegisterActivity"/>
     <fragment
         android:id="@+id/noNetworkFragment"

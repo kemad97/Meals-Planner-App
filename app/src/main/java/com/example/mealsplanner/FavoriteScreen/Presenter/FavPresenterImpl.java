@@ -41,15 +41,15 @@ public class FavPresenterImpl implements  FavPresenter {
 
     @Override
     public void removeFavorite(String mealId) {
-        disposables.add(mealDao.removeFromFavoritesById(mealId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::loadFavorites,
-                        throwable -> view.showError("Error removing favorite: " + throwable.getMessage())
-                ));
-
-
+        view.showRemoveConfirmationDialog(
+                () -> disposables.add(mealDao.removeFromFavoritesById(mealId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                () -> loadFavorites(),
+                                throwable -> view.showError("Error removing favorite: " + throwable.getMessage())
+                        ))
+        );
     }
 
     @Override
