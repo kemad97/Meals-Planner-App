@@ -1,12 +1,12 @@
 package com.example.mealsplanner.HomeScreen.View;
 
-import android.os.Bundle;
 
+import android.content.Context;
+import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mealsplanner.BaseFragment;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenterImpl;
@@ -44,7 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends BaseFragment implements HomeView {
     private HomePresenter presenter;
     private RecyclerView rvCategories;
     private RecyclerView rvCountries;
@@ -56,7 +57,6 @@ public class HomeFragment extends Fragment implements HomeView {
     private FirebaseAuth auth;
     private GoogleSignInClient googleSignInClient;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,8 +64,14 @@ public class HomeFragment extends Fragment implements HomeView {
         initViews(view);
         setupFirebase();
         setupPresenter();
-        loadData();
+       // loadData();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        loadData();
     }
 
     private void setupFirebase() {
@@ -76,7 +82,6 @@ public class HomeFragment extends Fragment implements HomeView {
                 .build();
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
-
         checkIfUserSigned();
     }
 
@@ -85,9 +90,7 @@ public class HomeFragment extends Fragment implements HomeView {
         if (user != null) {
             ivSignout.setVisibility(View.VISIBLE);
             ivSignout.setOnClickListener(v -> signOut());
-        }
-        else
-        {
+        } else {
             ivSignout.setVisibility(View.GONE);
         }
     }
@@ -96,13 +99,10 @@ public class HomeFragment extends Fragment implements HomeView {
         auth.signOut();
         googleSignInClient.signOut()
                 .addOnCompleteListener(requireActivity(), task -> {
-
-                    // Nav to login screen
                     NavController navController = Navigation.findNavController(requireView());
                     navController.navigate(R.id.action_homeFragment_to_guestFragment);
                 });
     }
-
 
     private void initViews(View view) {
         rvCategories = view.findViewById(R.id.rvCategories);
@@ -112,40 +112,29 @@ public class HomeFragment extends Fragment implements HomeView {
         cardMealOfDay = view.findViewById(R.id.cardMealOfDay);
         ivSignout = view.findViewById(R.id.ivSignout);
 
-//        ivMealOfDay.setOnClickListener(v->handleMealOfDayClick(view));
-//        cardMealOfDay.setOnClickListener(v->handleCardMealOfDayClick(view));
-
         View.OnClickListener mealClickListener = v -> handleMealOfDayClick(v);
         ivMealOfDay.setOnClickListener(mealClickListener);
         cardMealOfDay.setOnClickListener(mealClickListener);
     }
 
-    private void loadData() {
-        presenter.loadRandomMeal();
-        presenter.loadCategories();
-        presenter.loadAreas();
-        presenter.loadIngredients();
-    }
-
-    private void handleCardMealOfDayClick(View view) {
-        if (mealOfTheDay != null) {
-            NavController navController = Navigation.findNavController(view);
-            HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
-                    HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
-            navController.navigate(action);
-        }
+    protected void loadData() {
+        checkNetworkAndExecute(() -> {
+            presenter.loadRandomMeal();
+            presenter.loadCategories();
+            presenter.loadAreas();
+            presenter.loadIngredients();
+        });
     }
 
     private void handleMealOfDayClick(View view) {
-        if(mealOfTheDay!=null)
-        {
-            NavController navController= Navigation.findNavController(view);
-            HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
-                    HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
-            navController.navigate(action);
-
-
-        }
+        checkNetworkAndExecute(() -> {
+            if (mealOfTheDay != null) {
+                NavController navController = Navigation.findNavController(view);
+                HomeFragmentDirections.ActionHomeFragmentToMealDetailsFragment action =
+                        HomeFragmentDirections.actionHomeFragmentToMealDetailsFragment(mealOfTheDay.getId());
+                navController.navigate(action);
+            }
+        });
     }
 
     private void setupPresenter() {
@@ -160,11 +149,9 @@ public class HomeFragment extends Fragment implements HomeView {
         presenter.attachView(this);
     }
 
-
     @Override
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -178,25 +165,22 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void displayCategories(List<CategoriesItem> categories) {
-        CategoriesAdapter adapter = new CategoriesAdapter(categories, category ->
-                presenter.onCategorySelected(category.getStrCategory())
-        );
+        CategoriesAdapter adapter = new CategoriesAdapter(categories,
+                category -> presenter.onCategorySelected(category.getStrCategory()));
         rvCategories.setAdapter(adapter);
     }
 
     @Override
     public void displayAreas(List<Area> areas) {
-        AreasAdapter adapter = new AreasAdapter(areas, area ->
-                presenter.onAreaSelected(area.getName())
-        );
+        AreasAdapter adapter = new AreasAdapter(areas,
+                area -> presenter.onAreaSelected(area.getName()));
         rvCountries.setAdapter(adapter);
     }
 
     @Override
     public void displayIngredients(List<Meal.Ingredient> ingredients) {
-        IngredientsAdapter adapter = new IngredientsAdapter(ingredients, ingredient ->
-                presenter.onIngredientSelected(ingredient.getName())
-        );
+        IngredientsAdapter adapter = new IngredientsAdapter(ingredients,
+                ingredient -> presenter.onIngredientSelected(ingredient.getName()));
         rvCountries.setAdapter(adapter);
     }
 
@@ -204,14 +188,19 @@ public class HomeFragment extends Fragment implements HomeView {
     public void navigateToMealsList(String category, String area, String ing) {
         NavController navController = Navigation.findNavController(requireView());
         HomeFragmentDirections.ActionHomeFragmentToShowMealsFragment action =
-                HomeFragmentDirections.actionHomeFragmentToShowMealsFragment(category, area,ing);
+                HomeFragmentDirections.actionHomeFragmentToShowMealsFragment(category, area, ing);
         navController.navigate(action);
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         presenter.detachView();
+    }
+
+    @Override
+    public void navigateToNoNetwork() {
+        NavController navController = Navigation.findNavController(requireView());
+        navController.navigate(R.id.action_homeFragment_to_noNetworkFragment);
     }
 }

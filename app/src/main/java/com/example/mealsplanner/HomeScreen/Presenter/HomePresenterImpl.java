@@ -1,7 +1,16 @@
 package com.example.mealsplanner.HomeScreen.Presenter;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import android.content.Context;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.View.HomeView;
+import com.example.mealsplanner.NetworkUtils;
+import com.example.mealsplanner.R;
 
 
 import java.util.List;
@@ -15,6 +24,8 @@ public class HomePresenterImpl implements HomePresenter {
     private final ApiService apiService;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private HomeView view;
+
+
 
     public HomePresenterImpl(ApiService apiService) {
         this.apiService = apiService;
@@ -179,4 +190,17 @@ public class HomePresenterImpl implements HomePresenter {
         );
 
     }
+
+    private void checkNetworkAndExecute(Runnable action) {
+        if (view == null) return;
+
+        if (!NetworkUtils.isNetworkAvailable(view.getContext())) {
+            view.navigateToNoNetwork();
+            return;
+        }
+
+        action.run();
+    }
+
+
 }

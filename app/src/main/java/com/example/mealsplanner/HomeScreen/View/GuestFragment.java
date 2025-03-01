@@ -1,5 +1,6 @@
 package com.example.mealsplanner.HomeScreen.View;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenterImpl;
+import com.example.mealsplanner.MealDetails.View.IngredientsAdapter;
 import com.example.mealsplanner.R;
 import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
@@ -105,7 +107,7 @@ public class GuestFragment extends Fragment implements HomeView {
     private void loadData() {
         presenter.loadRandomMeal();
         presenter.loadCategories();
-        presenter.loadAreas();
+        presenter.loadIngredients();
     }
 
     private void showRegisterPrompt() {
@@ -150,8 +152,10 @@ public class GuestFragment extends Fragment implements HomeView {
 
     @Override
     public void displayIngredients(List<Meal.Ingredient> ingredients) {
-        // Not needed for guest view
-    }
+        IngredientsAdapter adapter = new IngredientsAdapter(ingredients, ingredient ->
+                presenter.onIngredientSelected(ingredient.getName())
+        );
+        rvCountries.setAdapter(adapter);    }
 
     @Override
     public void navigateToMealsList(String category, String area, String ing) {
@@ -162,5 +166,13 @@ public class GuestFragment extends Fragment implements HomeView {
     public void onDestroyView() {
         super.onDestroyView();
         presenter.detachView();
+    }
+
+
+
+    @Override
+    public void navigateToNoNetwork() {
+        Navigation.findNavController(requireView())
+                .navigate(R.id.action_guestFragment_to_noNetworkFragment);
     }
 }

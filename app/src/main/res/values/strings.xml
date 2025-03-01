@@ -48,4 +48,7 @@
     <string name="your_daily_planner">Your Daily Planner</string>
     <string name="popular_ingredients">Popular Ingredients</string>
     <string name="remove_favorite">Remove Favorite</string>
+    <string name="favorites">Favorites</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="retry_to_connect">Retry to connect</string>
 </resources>

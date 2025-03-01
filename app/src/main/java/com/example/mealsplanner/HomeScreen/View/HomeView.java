@@ -1,5 +1,7 @@
 package com.example.mealsplanner.HomeScreen.View;
 
+import android.content.Context;
+
 import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
@@ -13,5 +15,10 @@ public interface HomeView {
     void displayAreas(List<Area> areas);
     void displayIngredients(List<Meal.Ingredient> ingredients);
     void navigateToMealsList(String category, String area,String ing);
+
+    Context getContext();
+    void navigateToNoNetwork();
+
+
 
 }
