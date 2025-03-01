@@ -54,9 +54,16 @@
 
         <!-- Base application theme -->
         <style name="Base.Theme.MealPlanner" parent="Theme.Material3.DayNight.NoActionBar">
+            <item name="android:statusBarColor">@color/white</item>
+            <item name="android:windowLightStatusBar">true</item>
+
             <!-- Font family -->
             <item name="android:fontFamily">@font/poppins_regular</item>
             <item name="fontFamily">@font/poppins_regular</item>
+            <!-- Make status bar white with dark icons -->
+
+
+
 
             <!-- Text appearances -->
             <item name="textAppearanceBody1">@style/TextAppearance.App.Body1</item>
@@ -76,4 +83,5 @@
 
         <!-- App theme -->
         <style name="Theme.MealPlanner" parent="Base.Theme.MealPlanner" />
+
     </resources>

@@ -40,11 +40,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPswd;
     Button btnSignin;
     ImageView imgGoogle;
-    ImageView imgFacebook;
     TextView tvSignup;
     TextView tvSkip;
     private ProgressBar progressBar;
-
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;

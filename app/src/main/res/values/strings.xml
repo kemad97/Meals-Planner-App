@@ -51,4 +51,6 @@
     <string name="favorites">Favorites</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="retry_to_connect">Retry to connect</string>
+    <string name="add_meal">Add Meal</string>
+    <string name="guest_mode2">Guest Mode</string>
 </resources>

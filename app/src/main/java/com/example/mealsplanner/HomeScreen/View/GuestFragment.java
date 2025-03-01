@@ -53,7 +53,7 @@ public class GuestFragment extends Fragment implements HomeView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_guest, container, false);
         initViews(view);
         setupPresenter();
         setupMenu();

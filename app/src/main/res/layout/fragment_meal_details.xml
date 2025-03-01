@@ -121,21 +121,38 @@
             app:layout_constraintTop_toBottomOf="@id/webView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:drawableEnd="@drawable/ic_favorite"
+            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/white"
             android:contentDescription="@string/add_to_calendar"
+            android:elevation="4dp"
             android:padding="4dp"
             android:src="@drawable/ic_calendar2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardMealImage"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tvCountry"
+            app:layout_constraintTop_toBottomOf="@+id/tvMealName"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/add_meal"
+            android:textAlignment="center"
+            android:textColor="@color/green"
+            app:layout_constraintEnd_toEndOf="@+id/btnCalendar"
+            app:layout_constraintStart_toStartOf="@+id/btnCalendar"
+            app:layout_constraintTop_toBottomOf="@+id/btnCalendar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

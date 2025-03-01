@@ -144,8 +144,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgGoogle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_margin="8dp"
             app:srcCompat="@drawable/google" />
     </androidx.cardview.widget.CardView>

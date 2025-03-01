@@ -7,11 +7,12 @@
     android:background="@color/white"
     android:padding="16dp">
 
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/your_daily_planner"
         android:textColor="@color/green"
@@ -19,7 +20,6 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/calendarCard"

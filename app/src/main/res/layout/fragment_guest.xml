@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,12 +50,15 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivSignout"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvGuestLogin"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_logout"
-                android:visibility="invisible"
+                android:text="@string/guest_mode2"
+                android:textColor="@color/orange"
+                android:textSize="16sp"
+                android:visibility="visible"
                 tools:visibility="visible" />
         </LinearLayout>
 
