@@ -102,6 +102,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_searchFragment_to_noNetworkFragment"
+            app:destination="@id/noNetworkFragment" />
     </fragment>
 
     <fragment
@@ -232,14 +235,14 @@
         android:label="RegisterActivity"/>
     <fragment
         android:id="@+id/noNetworkFragment"
-        android:name="com.example.mealsplanner.NoNetworkFragment"
+        android:name="com.example.mealsplanner.common.NoNetworkFragment"
         android:label="fragment_no_network"
         tools:layout="@layout/fragment_no_network" >
         <action
             android:id="@+id/action_noNetworkFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
-            android:id="@+id/action_noNetworkFragment_to_guestFragment"
-            app:destination="@id/guestFragment" />
+            android:id="@+id/action_noNetworkFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
 </navigation>

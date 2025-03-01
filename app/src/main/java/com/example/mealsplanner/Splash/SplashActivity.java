@@ -1,4 +1,4 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.Splash;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.mealsplanner.R;
 import com.example.mealsplanner.auth.login.View.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {

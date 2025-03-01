@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements Registerview 
                     .build();
             mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         } catch (Exception e) {
-            Toast.makeText(this, "Google Sign-In initialization failed: " + e.getMessage(),
+            Toast.makeText(this, "Google Sign-In initialization failed: " ,
                     Toast.LENGTH_LONG).show();
         }
     }

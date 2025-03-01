@@ -11,5 +11,6 @@ public interface SearchView {
     void displayCategories(List<CategoriesItem> categories);
     void displayAreas(List<Area> areas);
     void displayIngredients(List<Meal.Ingredient> ingredients);
+    void navigateToNoNetwork();
 
 }

@@ -36,7 +36,7 @@ public class LoginPresenterImpl  implements  LoginPresenter{
                         view.saveLoginState(email, password);
                         view.navigateToMain();
                     } else {
-                        view.showError("Authentication failed: " + task.getException().getMessage());
+                        view.showError("Authentication failed: " );
                     }
                 });
     }

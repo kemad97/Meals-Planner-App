@@ -1,19 +1,9 @@
 package com.example.mealsplanner.HomeScreen.Presenter;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
-import android.content.Context;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.View.HomeView;
-import com.example.mealsplanner.NetworkUtils;
-import com.example.mealsplanner.R;
+import com.example.mealsplanner.common.NetworkUtils;
 
-
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;

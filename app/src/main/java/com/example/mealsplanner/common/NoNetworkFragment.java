@@ -1,14 +1,18 @@
-package com.example.mealsplanner;
+package com.example.mealsplanner.common;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.mealsplanner.R;
 
 public class NoNetworkFragment extends Fragment {
     @Override
@@ -19,11 +23,13 @@ public class NoNetworkFragment extends Fragment {
         Button btnRetry = view.findViewById(R.id.btnRetry);
         btnRetry.setOnClickListener(v -> {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                // go to previous fragment
-                Navigation.findNavController(v).navigateUp();
+                NavController navController = Navigation.findNavController(requireView());
+                navController.navigate(R.id.loginActivity, null,
+                        new NavOptions.Builder()
+                                .setPopUpTo(navController.getGraph().getStartDestination(), true)
+                                .build());
             }
         });
-
         return view;
     }
 }

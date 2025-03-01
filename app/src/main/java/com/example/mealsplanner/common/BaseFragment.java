@@ -1,14 +1,9 @@
-package com.example.mealsplanner;
-
-import android.os.Bundle;
+package com.example.mealsplanner.common;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import com.example.mealsplanner.R;
 
 
 public abstract class BaseFragment extends Fragment {
