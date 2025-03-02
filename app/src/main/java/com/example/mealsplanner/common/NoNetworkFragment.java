@@ -28,7 +28,7 @@ public class NoNetworkFragment extends Fragment {
                 NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(navController.getGraph().getStartDestination(), true)
                     .build();
-                navController.navigate(R.id.loginActivity, null, navOptions);
+                navController.navigate(R.id.action_noNetworkFragment_to_homeFragment, null, navOptions);
             } else {
                 Toast.makeText(requireContext(), "Please check your network settings.", Toast.LENGTH_SHORT).show();
             }

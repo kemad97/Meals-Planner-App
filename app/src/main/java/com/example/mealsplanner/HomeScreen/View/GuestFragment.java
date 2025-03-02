@@ -26,6 +26,7 @@ import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenterImpl;
 import com.example.mealsplanner.MealDetails.View.IngredientsAdapter;
 import com.example.mealsplanner.R;
+import com.example.mealsplanner.common.BaseFragment;
 import com.example.mealsplanner.model.Area;
 import com.example.mealsplanner.model.CategoriesItem;
 import com.example.mealsplanner.model.Meal;
@@ -39,7 +40,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class GuestFragment extends Fragment implements HomeView {
+public class GuestFragment extends BaseFragment implements HomeView {
 
     private HomePresenter presenter;
     private RecyclerView rvCategories;
@@ -175,5 +176,10 @@ public class GuestFragment extends Fragment implements HomeView {
     public void navigateToNoNetwork() {
         Navigation.findNavController(requireView())
                 .navigate(R.id.action_guestFragment_to_noNetworkFragment);
+    }
+
+    @Override
+    public void onNetworkLost() {
+        navigateToNoNetwork();
     }
 }

@@ -19,9 +19,15 @@ public class LoginPresenterImpl  implements  LoginPresenter{
     public LoginPresenterImpl(LoginView view, FirebaseAuth firebaseAuth) {
         this.view = view;
         this.firebaseAuth = firebaseAuth;
+        checkCurrentUser();
+
     }
 
-
+    private void checkCurrentUser() {
+        if (firebaseAuth.getCurrentUser() != null) {
+            view.navigateToMain();
+        }
+    }
     @Override
     public void attemptLogin(String email, String password) {
         if (!validateInput(email, password)) {
