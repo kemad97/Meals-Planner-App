@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.mealsplanner.Data.MealRepositoryImpl;
 import com.example.mealsplanner.Data.local.AppDatabase;
 import com.example.mealsplanner.FavoriteScreen.Presenter.FavPresenter;
 import com.example.mealsplanner.FavoriteScreen.Presenter.FavPresenterImpl;
@@ -64,8 +65,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView {
     }
 
     private void initPresenter() {
-        presenter = new FavPresenterImpl(this,
-                AppDatabase.getInstance(requireContext()).mealDao());
+        presenter = new FavPresenterImpl(this, MealRepositoryImpl.getInstance(requireContext()));
     }
 
     private void loadFavorites() {

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.mealsplanner.Data.MealRepositoryImpl;
 import com.example.mealsplanner.Data.local.AppDatabase;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.R;
@@ -69,17 +70,10 @@ public class ShowMealsFragment extends Fragment implements ShowMealsView {
 
 
     private void setupPresenter() {
-        ApiService apiService = new Retrofit.Builder()
-                .baseUrl(ApiService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-                .create(ApiService.class);
 
-        presenter = new ShowMealsPresenterImpl(
-                apiService,
-                AppDatabase.getInstance(requireContext()).mealDao()
-        );
+
+        presenter = new ShowMealsPresenterImpl(MealRepositoryImpl.getInstance(requireContext()));
+
         presenter.attachView(this);
 
     }

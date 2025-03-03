@@ -1,5 +1,6 @@
 package com.example.mealsplanner.PlannerScreen.Presenter;
 
+import com.example.mealsplanner.Data.MealRepository;
 import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.PlannerScreen.View.PlannerView;
 import com.example.mealsplanner.model.WeeklyPlanMeal;
@@ -10,12 +11,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class PlannerPresenterImpl implements PlannerPresenter {
     private PlannerView view;
-    private MealDao mealDao;
+    private MealRepository repository;
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    public PlannerPresenterImpl(PlannerView view, MealDao mealDao) {
+    public PlannerPresenterImpl(PlannerView view, MealRepository repository) {
         this.view = view;
-        this.mealDao = mealDao;
+        this.repository = repository;
     }
 
 
@@ -23,7 +24,7 @@ public class PlannerPresenterImpl implements PlannerPresenter {
     @Override
     public void getMealsForDate(String date) {
         disposable.add(
-                mealDao.getWeeklyPlan(date)
+                repository.getWeeklyPlan(date)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
@@ -47,7 +48,7 @@ public class PlannerPresenterImpl implements PlannerPresenter {
 
     private void addMealToWeeklyPlan(String mealId, String date) {
         disposable.add(
-                mealDao.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
+                repository.addToWeeklyPlan(new WeeklyPlanMeal(mealId, date))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
@@ -61,7 +62,7 @@ public class PlannerPresenterImpl implements PlannerPresenter {
     @Override
     public void removeMealFromDate(WeeklyPlanMeal meal) {
         disposable.add(
-                mealDao.removeFromWeeklyPlan(meal)
+                repository.removeFromWeeklyPlan(meal)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(

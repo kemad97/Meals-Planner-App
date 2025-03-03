@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mealsplanner.Data.MealRepositoryImpl;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.MealDetails.View.IngredientsAdapter;
 import com.example.mealsplanner.R;
@@ -102,7 +103,8 @@ public class SearchFragment extends BaseFragment implements SearchView {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
                 compositeDisposable.add(Observable.just(s.toString())
                         .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
                         .distinctUntilChanged()
@@ -127,14 +129,9 @@ public class SearchFragment extends BaseFragment implements SearchView {
 
     private void setupPresenter()
     {
-        ApiService apiService=new Retrofit.Builder()
-                .baseUrl(ApiService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-                .create(ApiService.class);
 
-        presenter=new SearchPresenterImpl(apiService);
+
+        presenter=new SearchPresenterImpl(MealRepositoryImpl.getInstance(requireContext()));
         presenter.attachView(this);
     }
 

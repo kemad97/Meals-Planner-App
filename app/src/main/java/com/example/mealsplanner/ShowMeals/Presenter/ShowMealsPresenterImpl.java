@@ -2,6 +2,8 @@ package com.example.mealsplanner.ShowMeals.Presenter;
 
 import android.annotation.SuppressLint;
 
+import com.example.mealsplanner.Data.MealRepository;
+import com.example.mealsplanner.Data.MealRepositoryImpl;
 import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.ShowMeals.View.ShowMealsView;
@@ -19,16 +21,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ShowMealsPresenterImpl implements ShowMealsPresenter {
-    private final ApiService apiService;
-    private final MealDao mealDao;
+   private MealRepository repository;
     private ShowMealsView view;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public ShowMealsPresenterImpl(ApiService apiService, MealDao mealDao) {
-        this.apiService = apiService;
-        this.mealDao = mealDao;
-    }
 
+    public ShowMealsPresenterImpl(MealRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void attachView(ShowMealsView view) {
@@ -47,11 +47,11 @@ public void loadMealsByCategory(String category) {
     }
 
     disposables.add(
-        apiService.filterByCategory(category)
-            .map(response -> {
+    repository.getMealsByCategory(category)
+        .map(response -> {
                 List<Meal> meals = new ArrayList<>();
-                if (response != null && response.getMeals() != null) {
-                    meals.addAll(response.getMeals());
+                if (response != null ) {
+                    meals.addAll(response);
                 }
                 return meals;
             })
@@ -81,11 +81,11 @@ public void loadMealsByIngredient(String ingredient) {
     }
 
     disposables.add(
-        apiService.filterByIngredient(ingredient)
+        repository.getMealsByIngredient(ingredient)
             .map(response -> {
                 List<Meal> meals = new ArrayList<>();
-                if (response != null && response.getMeals() != null) {
-                    meals.addAll(response.getMeals());
+                if ( response != null) {
+                    meals.addAll(response);
                 }
                 return meals;
             })
@@ -115,11 +115,11 @@ public void loadMealsByArea(String area) {
     }
 
     disposables.add(
-        apiService.filterByArea(area)
+        repository.getMealsByArea(area)
             .map(response -> {
                 List<Meal> meals = new ArrayList<>();
-                if (response != null && response.getMeals() != null) {
-                    meals.addAll(response.getMeals());
+                if (response != null) {
+                    meals.addAll(response);
                 }
                 return meals;
             })
@@ -145,7 +145,7 @@ public void loadMealsByArea(String area) {
     @Override
     public void showMeals(List<Meal> meals) {
         disposables.add(
-            mealDao.getFavorites()
+            repository.getFavorites()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(favorites -> {
@@ -170,7 +170,7 @@ public void loadMealsByArea(String area) {
     public void toggleFavorite(Meal meal) {
         if (meal.isFavorite()) {
             disposables.add(
-                    mealDao.removeFromFavoritesById(meal.getId())
+                    repository.removeFromFavoritesById(meal.getId())
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
@@ -194,7 +194,7 @@ public void loadMealsByArea(String area) {
         else {
             FavoriteMeal favoriteMeal = new FavoriteMeal(meal);
             disposables.add(
-                    mealDao.addToFavorites(favoriteMeal)
+                    repository.addToFavorites(favoriteMeal)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(

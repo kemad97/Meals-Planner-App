@@ -11,6 +11,9 @@ package com.example.mealsplanner.PlannerScreen.View;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+
+        import com.example.mealsplanner.Data.MealRepository;
+        import com.example.mealsplanner.Data.MealRepositoryImpl;
         import com.example.mealsplanner.Data.local.AppDatabase;
         import com.example.mealsplanner.Data.local.MealDao;
         import com.example.mealsplanner.PlannerScreen.Presenter.PlannerPresenter;
@@ -26,13 +29,12 @@ package com.example.mealsplanner.PlannerScreen.View;
             private CalendarView calendarView;
             private RecyclerView rvPlannedMeals;
             private PlannerPresenter presenter;
-            private MealDao mealDao;
+            private MealRepository repository;
             private PlannerAdapter adapter = new PlannerAdapter();
 
             @Override
             public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                mealDao = AppDatabase.getInstance(requireContext()).mealDao();
             }
 
             @Override
@@ -85,7 +87,7 @@ package com.example.mealsplanner.PlannerScreen.View;
             }
 
             private void initPresenter() {
-                presenter = new PlannerPresenterImpl(this, mealDao);
+                presenter = new PlannerPresenterImpl(this, MealRepositoryImpl.getInstance(requireContext()));
 
                 Calendar today = Calendar.getInstance();
                 String currentDate = String.format(Locale.getDefault(), "%d-%02d-%02d",

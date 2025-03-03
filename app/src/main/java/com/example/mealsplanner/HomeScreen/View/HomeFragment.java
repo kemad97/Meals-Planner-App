@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mealsplanner.Data.MealRepositoryImpl;
+import com.example.mealsplanner.Data.remote.RemoteDataSourceImpl;
 import com.example.mealsplanner.common.BaseFragment;
 import com.example.mealsplanner.Data.remote.ApiService;
 import com.example.mealsplanner.HomeScreen.Presenter.HomePresenter;
@@ -132,14 +134,8 @@ private void signOut() {
 
 
     private void setupPresenter() {
-        ApiService apiService = new Retrofit.Builder()
-                .baseUrl(ApiService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .build()
-                .create(ApiService.class);
 
-        presenter = new HomePresenterImpl(apiService);
+        presenter = new HomePresenterImpl(MealRepositoryImpl.getInstance(requireContext())) ;
         presenter.attachView(this);
     }
 

@@ -1,5 +1,6 @@
 package com.example.mealsplanner.FavoriteScreen.Presenter;
 
+import com.example.mealsplanner.Data.MealRepository;
 import com.example.mealsplanner.Data.local.MealDao;
 import com.example.mealsplanner.FavoriteScreen.View.FavoritesView;
 import com.example.mealsplanner.model.FavoriteMeal;
@@ -10,12 +11,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FavPresenterImpl implements  FavPresenter {
     private final FavoritesView view;
-    private final MealDao mealDao;
+    private final MealRepository repository;
     private final CompositeDisposable disposables;
 
-    public FavPresenterImpl(FavoritesView view, MealDao mealDao) {
+    public FavPresenterImpl(FavoritesView view, MealRepository repository) {
         this.view = view;
-        this.mealDao = mealDao;
+        this.repository = repository;
         disposables = new CompositeDisposable();
     }
 
@@ -23,7 +24,7 @@ public class FavPresenterImpl implements  FavPresenter {
     public void loadFavorites() {
         view.showLoading();
         disposables.add(
-                mealDao.getFavorites()
+                    repository.getFavorites()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
@@ -42,7 +43,8 @@ public class FavPresenterImpl implements  FavPresenter {
     @Override
     public void removeFavorite(String mealId) {
         view.showRemoveConfirmationDialog(
-                () -> disposables.add(mealDao.removeFromFavoritesById(mealId)
+                () -> disposables.add(
+                       repository.removeFromFavoritesById(mealId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(

@@ -1,6 +1,6 @@
 package com.example.mealsplanner.HomeScreen.Presenter;
 
-import com.example.mealsplanner.Data.remote.ApiService;
+import com.example.mealsplanner.Data.MealRepository;
 import com.example.mealsplanner.HomeScreen.View.HomeView;
 import com.example.mealsplanner.common.NetworkUtils;
 
@@ -11,14 +11,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class HomePresenterImpl implements HomePresenter {
 
-    private final ApiService apiService;
+    private final MealRepository repository;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private HomeView view;
 
 
 
-    public HomePresenterImpl(ApiService apiService) {
-        this.apiService = apiService;
+    public HomePresenterImpl(MealRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -36,22 +36,13 @@ public class HomePresenterImpl implements HomePresenter {
     public void loadRandomMeal() {
         if (view == null) return;
 
-
         compositeDisposable.add(
-                apiService.getRandomMeal()
+                repository.getRandomMeal()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                response -> {
-
-                                    if (response.getMeals() != null && !response.getMeals().isEmpty()) {
-                                        view.displayRandomMeal(response.getMeals().get(0));
-                                    }
-                                },
-                                error -> {
-
-                                    view.showError(error.getMessage());
-                                }
+                                meal -> view.displayRandomMeal(meal),
+                                error -> view.showError(error.getMessage())
                         )
         );
     }
@@ -59,126 +50,98 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void loadCategories() {
         if (view == null) return;
+                compositeDisposable.add(
+                        repository.getCategories()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        categories -> view.displayCategories(categories),
+                                        error -> view.showError(error.getMessage())
+                                )
+                );
 
-
-        compositeDisposable.add(
-                apiService.getCategories()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-
-                                    if (response.getCategoriesResponse() != null) {
-                                        view.displayCategories(response.getCategoriesResponse());
-                                    }
-                                },
-                                error -> {
-
-                                    view.showError(error.getMessage());
-                                }
-                        )
-        );
     }
+
 
     @Override
     public void loadAreas() {
         if (view == null) return;
-
-
-        compositeDisposable.add(
-                apiService.getAreas("list")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-
-                                    if (response.getAreasResponse() != null) {
-                                        view.displayAreas(response.getAreasResponse());
-                                    }
-                                },
-                                error -> {
-
-                                    view.showError(error.getMessage());
-                                }
-                        )
+        checkNetworkAndExecute(() ->
+                compositeDisposable.add(
+                        repository.getAreas()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        areas -> view.displayAreas(areas),
+                                        error -> view.showError(error.getMessage())
+                                )
+                )
         );
     }
+
 
     @Override
     public void loadIngredients() {
         if (view == null) return;
-        compositeDisposable.add(
-                apiService.getIngredients()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-                                    if (response.getIngredients() != null) {
-                                        view.displayIngredients(response.getIngredients());
-                                    }
-                                },
-                                error -> view.showError("Failed to load ingredients: " + error.getMessage())
-                        )
+        checkNetworkAndExecute(() ->
+                compositeDisposable.add(
+                        repository.getIngredients()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        ingredients -> view.displayIngredients(ingredients),
+                                        error -> view.showError("Failed to load ingredients: " + error.getMessage())
+                                )
+                )
         );
     }
 
     @Override
     public void onCategorySelected(String category) {
         if (view == null) return;
-
-
-        compositeDisposable.add(
-                apiService.filterByCategory(category)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-                                    if (response.getMeals() != null) {
-                                        view.navigateToMealsList(category, null, null);
-                                    }
-                                },
-                                error -> view.showError("Failed to load meals by category: " + error.getMessage())
-                        )
+        checkNetworkAndExecute(() ->
+                compositeDisposable.add(
+                        repository.getMealsByCategory(category)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        meals -> view.navigateToMealsList(category, null, null),
+                                        error -> view.showError("Failed to load meals by category: " + error.getMessage())
+                                )
+                )
         );
     }
 
     @Override
     public void onAreaSelected(String area) {
         if (view == null) return;
-
-
-        compositeDisposable.add(
-                apiService.filterByArea(area)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-                                    if (response.getMeals() != null) {
-                                        view.navigateToMealsList(null, area, null);
-                                    }
-                                },
-                                error -> view.showError("Failed to load meals by area: " + error.getMessage())
-                        )
+        checkNetworkAndExecute(() ->
+                compositeDisposable.add(
+                        repository.getMealsByArea(area)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        meals -> view.navigateToMealsList(null, area, null),
+                                        error -> view.showError("Failed to load meals by area: " + error.getMessage())
+                                )
+                )
         );
     }
 
     @Override
-    public void onIngredientSelected(String ing) {
+    public void onIngredientSelected(String ingredient) {
         if (view == null) return;
-        compositeDisposable.add(
-                apiService.filterByIngredient(ing)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                response -> {
-                                    if (response.getMeals() != null) {
-                                        view.navigateToMealsList(null, null, ing);
-                                    }
-                                },
-                                error -> view.showError("Failed to load meals by area: " + error.getMessage())
-                        )
+        checkNetworkAndExecute(() ->
+                compositeDisposable.add(
+                        repository.getMealsByIngredient(ingredient)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        meals -> view.navigateToMealsList(null, null, ingredient),
+                                        error -> view.showError("Failed to load meals by ingredient: " + error.getMessage())
+                                )
+                )
         );
-
     }
 
     private void checkNetworkAndExecute(Runnable action) {
