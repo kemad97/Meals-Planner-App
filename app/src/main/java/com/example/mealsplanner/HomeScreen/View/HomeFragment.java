@@ -118,7 +118,7 @@ private void signOut() {
     protected void loadData() {
             presenter.loadRandomMeal();
             presenter.loadCategories();
-            presenter.loadAreas();
+           // presenter.loadAreas();
             presenter.loadIngredients();
     }
 

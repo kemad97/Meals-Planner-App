@@ -36,7 +36,7 @@
             android:background="@null"
             android:elevation="4dp"
             android:src="@drawable/ic_favorite"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tvMealName"

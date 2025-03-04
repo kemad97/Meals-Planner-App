@@ -16,6 +16,10 @@ public class HomePresenterImpl implements HomePresenter {
     private HomeView view;
 
 
+    public HomePresenterImpl(MealRepository repository, HomeView view) {
+        this.repository = repository;
+        this.view = view;
+    }
 
     public HomePresenterImpl(MealRepository repository) {
         this.repository = repository;
@@ -50,6 +54,7 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void loadCategories() {
         if (view == null) return;
+
                 compositeDisposable.add(
                         repository.getCategories()
                                 .subscribeOn(Schedulers.io())

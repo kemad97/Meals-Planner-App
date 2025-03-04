@@ -23,7 +23,8 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:padding="8dp"
-            app:shapeAppearanceOverlay="@style/RoundedImageView"/>
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"/>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvIngredientName"

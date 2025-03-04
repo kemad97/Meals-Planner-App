@@ -60,7 +60,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView {
         });
 
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
     }
 

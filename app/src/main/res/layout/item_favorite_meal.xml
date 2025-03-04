@@ -1,11 +1,11 @@
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
-    android:padding="8dp"
+    android:padding="4dp"
     app:strokeColor="@color/green"
     app:strokeWidth="1.5dp"
     style="@style/MaterialCardView"
@@ -14,22 +14,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/ivMealImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="140dp"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tvMealName"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:padding="8dp"
+            android:padding="2dp"
             android:textAlignment="center"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRemoveFav"
@@ -38,10 +39,11 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:background="@drawable/buttons_drawable"
-            android:padding="8dp"
             android:drawableEnd="@drawable/ic_heart_minus"
             android:text="@string/remove_favorite"
-            android:textColor="@color/white" />
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
