@@ -153,8 +153,7 @@ public class HomePresenterImpl implements HomePresenter {
         if (view == null) return;
 
         if (!NetworkUtils.isNetworkAvailable(view.getContext())) {
-            view.navigateToNoNetwork();
-            return;
+            view.navigateToNoNetwork();;
         }
 
         action.run();

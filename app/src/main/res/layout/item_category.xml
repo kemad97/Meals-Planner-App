@@ -8,6 +8,8 @@
     app:cardElevation="4dp"
     app:strokeWidth="1dp"
     app:strokeColor="@color/green"
+    android:clickable="true"
+    android:focusable="true"
     style="@style/MaterialCardView">
 
 

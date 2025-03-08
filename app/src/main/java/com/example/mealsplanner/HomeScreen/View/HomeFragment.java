@@ -134,9 +134,7 @@ private void signOut() {
 
 
     private void setupPresenter() {
-
-        presenter = new HomePresenterImpl(MealRepositoryImpl.getInstance(requireContext())) ;
-        presenter.attachView(this);
+        presenter = new HomePresenterImpl( MealRepositoryImpl.getInstance(requireContext()) ,this) ;
     }
 
     @Override

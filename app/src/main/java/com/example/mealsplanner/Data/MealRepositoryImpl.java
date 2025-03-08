@@ -106,6 +106,9 @@ public class MealRepositoryImpl implements MealRepository {
         return localDataSource.getFavorites();
     }
 
+
+    /*Local*/
+
     @Override
     public Completable addToFavorites(FavoriteMeal meal) {
         return localDataSource.addToFavorites(meal);
